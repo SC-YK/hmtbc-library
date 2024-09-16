@@ -1,2 +1,2 @@
 # HMTBC-Library
-[site](https://simonchanyk.github.io/HMTBC-Library/)
+[site](https://sc-yk.github.io/HMTBC-Library/)
