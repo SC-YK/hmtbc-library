@@ -1,3 +1,5 @@
+// #region firebase setup
+// config
 const firebaseConfig = {
     apiKey: "AIzaSyBeZky7HHfkoWj_i4wbVJUF5z67b93HLv4",
     authDomain: "hmtbc-library-db.firebaseapp.com",
@@ -28,6 +30,7 @@ auth.setPersistence(firebase.auth.Auth.Persistence.NONE)
     var errorCode = error.code;
     var errorMessage = error.message;
   });
+//#endregion
 
 /*auth.onAuthStateChanged((user) => {
     if (user) {
@@ -39,11 +42,13 @@ auth.setPersistence(firebase.auth.Auth.Persistence.NONE)
     }
   });*/
 
-document.getElementById('adminDiv').style.display = 'none';
+//document.getElementById('adminDiv').style.display = 'none';
 
+//signin as admin
 function signIn(password, email = "admin@hmtbc.com")
 {
     console.log('Signing in with email: ' + email + " password: " + password);
+    document.getElementById('status').innerHTML = 'signing in...';
     auth.signInWithEmailAndPassword(email, password)
         .then((userCredential) => {
             // Signed in
@@ -61,6 +66,7 @@ function signIn(password, email = "admin@hmtbc.com")
         });
 }
 
+//add book record to database
 function writeBookRecord(rID, cNum1, cNum2, title, author, publisher, notes){
     db.collection("books").add({
         rID: rID == null ? '' : rID,
@@ -79,6 +85,7 @@ function writeBookRecord(rID, cNum1, cNum2, title, author, publisher, notes){
     });  
 }
 
+//refresh book record display
 function updateBookRecordDisplay(){
     bookRecords = [];
     document.getElementById('result').innerHTML = '';
@@ -115,14 +122,22 @@ function updateBookRecordDisplay(){
     FR.readAsArrayBuffer(file);
 }
 
-db.collection("users").get().then((querySnapshot) => {
+//read book records from database
+/*db.collection("books").get().then((querySnapshot) => {
     querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data()}`);
+        console.log(`${doc.id} => ${doc.data().title}`);
     });
-});
+});*/
 
 var bookRecords = [];
 
+//sign in listener
+document.getElementById('pw').addEventListener('keyup', function(e) {
+    e.preventDefault();
+    if (e.key === 'Enter' || e.keyCode === 13) {
+        document.getElementById("signin").click();
+    }
+});
 document.getElementById('signin').addEventListener('click', function(e) {
     console.log('signin clicked');
     signIn(document.getElementById('pw').value);
@@ -136,7 +151,8 @@ document.getElementById('skipLine').addEventListener('input', function(e) {
     updateBookRecordDisplay();
  });
 
- document.getElementById('writeData').addEventListener('click', function(e) {
+ //upload book records to database listener
+document.getElementById('writeData').addEventListener('click', function(e) {
     console.log('writeData clicked' + " " + bookRecords.length);
     var skipped = parseInt(document.getElementById('skipLine').value);
     skipped = isNaN(skipped) ? 0 : skipped;
