@@ -84,15 +84,15 @@ async function getBookRecords(){
     console.log(ver);
     if (localStorage.getItem('version') != ver)
     {
-        data = await db.collection('books').doc(ver).get().then((rec) => rec.data().json);
+        data = await db.collection('books').doc(ver).get().then((rec) => JSON.parse(rec.data().json));
         localStorage.setItem('data', JSON.stringify(data));
         localStorage.setItem('version', ver);
     }
     else 
     {
-        data = JSON.parse(JSON.parse(localStorage.getItem('data')));
+        data = JSON.parse(localStorage.getItem('data'));
     }
-    console.log(data.length);
+    console.log(data);
 }
 
 //add book record to database
