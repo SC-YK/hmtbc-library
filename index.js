@@ -81,6 +81,7 @@ async function getDataFromFile(){
 async function getBookRecords(){
     var ver = await db.collection('version').doc('version').get()
     .then((doc) => doc.data().version);
+    console.log(ver);
     if (localStorage.getItem('version') != ver)
     {
         data = await db.collection('books').doc(ver).get().then((rec) => rec.data().json);
@@ -91,6 +92,7 @@ async function getBookRecords(){
     {
         data = JSON.parse(JSON.parse(localStorage.getItem('data')));
     }
+    console.log(data.length);
 }
 
 //add book record to database
@@ -227,7 +229,6 @@ async function query(q, type)
         `;
     });
     div.innerHTML = resultHTML;
-    console.log('c' + entries.length);
 
     document.getElementById('res').innerHTML = '搜尋結果: ' + entries.length + '筆';
 }
