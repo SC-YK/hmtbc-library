@@ -193,6 +193,9 @@ async function query(q, type)
             case 'publisher':
                 if (doc.publisher.includes(q)) {doc.score += 1;}
                 break;
+            default:
+                doc.score = 1;
+                break;
         }
     });
     var entries = dataScore.filter((doc) => doc.score > 0);
@@ -288,7 +291,7 @@ await getBookRecords();
 
 const params = new URLSearchParams(document.location.search);
 document.getElementById('searchInput').value = params.get('searchInput');
-document.getElementById('searchType').value = params.get('searchType');
+document.getElementById('searchType').value = params.get('searchType') == null ? 'title' : params.get('searchType');
 query(params.get('searchInput'), params.get('searchType'));
 //localStorage.setItem('data', JSON.stringify(data));
 //var loaded = localStorage.getItem('data') != null ? JSON.parse(localStorage.getItem('data')) : getDataFromFile();
