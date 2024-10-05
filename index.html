@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to the Library</h1>
+        <h1>Welcome to the Library</h1><!--
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
@@ -16,12 +16,25 @@
                 <li><a href="#">Catalog</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
-        </nav>
+        </nav>-->
     </header>
     <main>
         <section>
-            <h2>About Us</h2>
-            <p>Welcome to our library. We offer a wide range of books and resources for all ages.</p>
+            <form id="searchForm">
+                <select id="searchType" name="searchType">
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="publisher">Publisher</option>
+                </select>
+                <input type="text" id="searchInput" name="searchInput" placeholder="Enter book title, author or publisher">
+                <button type="submit">搜尋</button>
+            </form>
+        </section>
+        <section>
+            <label id="res"></label><hr>
+            <div id="resultList">
+                
+            </div>
         </section>
         <section>
             <div id="pwDiv">
@@ -40,13 +53,9 @@
                 </div>
             </div>
         </section>
-        <section>
-            <h2>Catalog</h2>
-            <p>Explore our extensive catalog of books, magazines, and digital resources.</p>
-        </section>
     </main>
     <footer>
-        <p>&copy; 2023 Library. All rights reserved.</p>
+        <p>&copy; All rights reserved.</p>
     </footer>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>

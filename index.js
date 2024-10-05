@@ -66,6 +66,33 @@ function signIn(password, email = "admin@hmtbc.com")
         });
 }
 
+async function getDataFromFile(){
+    var f = "./data.json";
+    var result = null;
+
+    await fetch(f)
+    .then((res) => res.json())
+    .then((data) => {result = JSON.stringify(data);})
+    .catch((e) => console.error(e));
+    
+    return result;
+}
+
+async function getBookRecords(){
+    var ver = await db.collection('version').doc('version').get()
+    .then((doc) => doc.data().version);
+    if (localStorage.getItem('version') != ver)
+    {
+        data = await db.collection('books').doc(ver).get().then((rec) => rec.data().json);
+        localStorage.setItem('data', JSON.stringify(data));
+        localStorage.setItem('version', ver);
+    }
+    else 
+    {
+        data = JSON.parse(JSON.parse(localStorage.getItem('data')));
+    }
+}
+
 //add book record to database
 function writeBookRecord(rID, cNum1, cNum2, title, author, publisher, notes){
     db.collection("books").add({
@@ -83,6 +110,19 @@ function writeBookRecord(rID, cNum1, cNum2, title, author, publisher, notes){
     .catch((error) => {
         console.error("Error adding document: ", error);
     });  
+}
+
+//add book record to database
+function createBookRecord(rID, cNum1, cNum2, title, author, publisher, notes){
+    return({
+        rID: rID == null ? '' : rID,
+        cNum1: cNum1 == null ? '' : cNum1,
+        cNum2: cNum2 == null ? '' : cNum2,
+        title: title == null ? '' : title,
+        author: author == null ? '' : author,
+        publisher: publisher == null ? '' : publisher,
+        notes: notes == null ? '' : notes
+    })
 }
 
 //refresh book record display
@@ -122,14 +162,91 @@ function updateBookRecordDisplay(){
     FR.readAsArrayBuffer(file);
 }
 
+async function query(q, type)
+{
+    var div = document.getElementById('resultList');
+    div.innerHTML = '搜尋中';
+    var resultHTML = '';
+
+    var dataScore = structuredClone(data);
+    console.log(typeof(data));
+    dataScore.forEach((doc) => {
+        doc.score = 0;
+        switch(type){
+            case 'rID':
+                if (doc.rID == q) {doc.score += 1;}
+                break;
+            case 'cNum1':
+                if (doc.cNum1 == q) {doc.score += 1;}
+                break;
+            case 'cNum2':
+                if (doc.cNum2 == q) {doc.score += 1;}
+                break;
+            case 'title':
+                if (doc.title.includes(q)) {doc.score += 1;}
+                break;
+            case 'author':
+                if (doc.author.includes(q)) {doc.score += 1;}
+                break;
+            case 'publisher':
+                if (doc.publisher.includes(q)) {doc.score += 1;}
+                break;
+        }
+    });
+    var entries = dataScore.filter((doc) => doc.score > 0);
+    entries.sort((a, b) => b.score - a.score);
+
+    
+    entries.forEach((doc) => {
+        resultHTML += `
+        <div>
+            <h2>${doc.title}</h2>
+            <h4>${doc.author}</h4>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>出版</td>
+                        <td>${doc.publisher}</td>
+                    </tr>
+                    <tr>
+                        <td>RID</td>
+                        <td>${doc.rID}</td>
+                    </tr>
+                    <tr>
+                        <td>cNum1</td>
+                        <td>${doc.cNum1}</td>
+                    </tr>
+                    <tr>
+                        <td>cNum2</td>
+                        <td>${doc.cNum2}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        <div>
+        `;
+    });
+    div.innerHTML = resultHTML;
+    console.log('c' + entries.length);
+
+    document.getElementById('res').innerHTML = '搜尋結果: ' + entries.length + '筆';
+}
+
 //read book records from database
 /*db.collection("books").get().then((querySnapshot) => {
+    data = querySnapshot;
     querySnapshot.forEach((doc) => {
-        console.log(`${doc.id} => ${doc.data().title}`);
+        //console.log(`${doc.id} => ${doc.data().title}`);
+        data[0] = structuredClone(doc.data());
     });
+    
 });*/
+//console.log(data.length);
+//console.log(data);
+
 
 var bookRecords = [];
+var data = [];
 
 //sign in listener
 document.getElementById('pw').addEventListener('keyup', function(e) {
@@ -160,7 +277,19 @@ document.getElementById('writeData').addEventListener('click', function(e) {
         if (bookRecords[i].length < 6){
             continue;
         }
-        writeBookRecord(bookRecords[i][0], bookRecords[i][1], bookRecords[i][2], bookRecords[i][3], bookRecords[i][4], bookRecords[i][5], '');
+        //writeBookRecord(bookRecords[i][0], bookRecords[i][1], bookRecords[i][2], bookRecords[i][3], bookRecords[i][4], bookRecords[i][5], '');
+        data.push(createBookRecord(bookRecords[i][0], bookRecords[i][1], bookRecords[i][2], bookRecords[i][3], bookRecords[i][4], bookRecords[i][5], ''));
     }
+    localStorage.setItem('data', JSON.stringify(data));
  });
 
+await getBookRecords();
+
+const params = new URLSearchParams(document.location.search);
+document.getElementById('searchInput').value = params.get('searchInput');
+document.getElementById('searchType').value = params.get('searchType');
+query(params.get('searchInput'), params.get('searchType'));
+//localStorage.setItem('data', JSON.stringify(data));
+//var loaded = localStorage.getItem('data') != null ? JSON.parse(localStorage.getItem('data')) : getDataFromFile();
+//var loaded = await getDataFromFile();
+//console.log(loaded);
