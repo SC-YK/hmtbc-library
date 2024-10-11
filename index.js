@@ -81,10 +81,9 @@ async function getDataFromFile(){
 async function getBookRecords(){
     var ver = await db.collection('version').doc('version').get()
     .then((doc) => doc.data().version);
-    console.log(ver);
     if (localStorage.getItem('version') != ver)
     {
-        data = await db.collection('books').doc(ver).get().then((rec) => JSON.parse(rec.data().json));
+        data = await db.collection('books').doc('records').get().then((rec) => rec.data());
         localStorage.setItem('data', JSON.stringify(data));
         localStorage.setItem('version', ver);
     }
@@ -92,7 +91,6 @@ async function getBookRecords(){
     {
         data = JSON.parse(localStorage.getItem('data'));
     }
-    console.log(data);
 }
 
 //add book record to database
@@ -117,13 +115,16 @@ function writeBookRecord(rID, cNum1, cNum2, title, author, publisher, notes){
 //add book record to database
 function createBookRecord(rID, cNum1, cNum2, title, author, publisher, notes){
     return({
-        rID: rID == null ? '' : rID,
-        cNum1: cNum1 == null ? '' : cNum1,
-        cNum2: cNum2 == null ? '' : cNum2,
-        title: title == null ? '' : title,
-        author: author == null ? '' : author,
-        publisher: publisher == null ? '' : publisher,
-        notes: notes == null ? '' : notes
+        key: rID == null ? '' : rID,
+        data: {
+            rID: rID == null ? '' : rID,
+            cNum1: cNum1 == null ? '' : cNum1,
+            cNum2: cNum2 == null ? '' : cNum2,
+            title: title == null ? '' : title,
+            author: author == null ? '' : author,
+            publisher: publisher == null ? '' : publisher,
+            notes: notes == null ? '' : notes
+        }
     })
 }
 
@@ -169,8 +170,7 @@ async function query(q, type)
     var div = document.getElementById('resultList');
     div.innerHTML = '搜尋中';
     var resultHTML = '';
-
-    var dataScore = structuredClone(data);
+    var dataScore = structuredClone(Object.values(data));
     console.log(typeof(data));
     dataScore.forEach((doc) => {
         doc.score = 0;
@@ -272,19 +272,52 @@ document.getElementById('skipLine').addEventListener('input', function(e) {
     updateBookRecordDisplay();
  });
 
+
  //upload book records to database listener
 document.getElementById('writeData').addEventListener('click', function(e) {
     console.log('writeData clicked' + " " + bookRecords.length);
     var skipped = parseInt(document.getElementById('skipLine').value);
     skipped = isNaN(skipped) ? 0 : skipped;
+
+    var time = new Date().getTime().toString();
+
+    var records = {};
     for (var i = skipped; i < bookRecords.length; i++){
         if (bookRecords[i].length < 6){
             continue;
         }
         //writeBookRecord(bookRecords[i][0], bookRecords[i][1], bookRecords[i][2], bookRecords[i][3], bookRecords[i][4], bookRecords[i][5], '');
-        data.push(createBookRecord(bookRecords[i][0], bookRecords[i][1], bookRecords[i][2], bookRecords[i][3], bookRecords[i][4], bookRecords[i][5], ''));
+        var record = createBookRecord(bookRecords[i][0], bookRecords[i][1], bookRecords[i][2], bookRecords[i][3], bookRecords[i][4], bookRecords[i][5], '');
+        record.key = time + record.key + "_" + i.toString();
+        records[record.key] = record.data;
+        //console.log(record);
+        //data.push;
     }
-    localStorage.setItem('data', JSON.stringify(data));
+    /*db.collection("books").doc("records").update(records)
+    .then(() => {
+        console.log("Document successfully updated!");
+    });*/
+    var batch = db.batch();
+    var recordsRef = db.collection("books").doc("records");
+    batch.update(recordsRef, records);
+    var versionRef = db.collection("version").doc("version");
+    batch.update(versionRef, {version: firebase.firestore.FieldValue.increment(1)});
+    var logRef = db.collection("books").doc("log");
+    //var logged = {time: firebase.firestore.FieldValue.serverTimestamp(), type: "add", data: JSON.stringify(records)};
+    //batch.update(logRef, {log: firebase.firestore.FieldValue.arrayUnion(logged)});
+    
+    var randomId = db.collection("version").doc().id + "_" + time;
+    var logged = {};
+    logged[randomId] = {
+        time: firebase.firestore.FieldValue.serverTimestamp(), 
+        type: "add", 
+        data: JSON.stringify(records)
+    };
+    batch.update(logRef, logged);
+    batch.commit().then(() => {
+        console.log("Document successfully updated!");
+    });
+    //localStorage.setItem('data', JSON.stringify(data));
  });
 
 await getBookRecords();
