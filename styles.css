@@ -2,3 +2,91 @@ table, th, td {
     border:1px solid black;
     border-collapse: collapse;
 }
+
+textarea {
+    resize: none;
+    width: 95%;
+}
+
+#sectionMenu ul {
+    width: 100%;
+    display: table;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+#sectionMenu li {
+    display: table-cell;
+    text-align: center;
+    border: 1px solid black;
+    vertical-align: middle;
+    word-wrap: break-word;
+}
+#sectionMenu button {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    border-color: #ffffff;
+    background-color: #e4e4e4;
+    color: #1c1c1c;
+}
+#sectionMenu button:hover {
+    background-color: #ffffff;
+    color: #1b1b1b;
+}
+#sectionMenu button.selected {
+    border-color: #a8fffe;
+    background-color: #1b1b1b;
+    color: #ffffff;
+}
+#editSection tr {
+    height: 10px;
+    margin: 0px;
+}
+#editSection td {
+    height: 10px;
+    position: relative;
+    margin: 0px;
+    padding: 0px;
+}
+#editSection div div {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+#editSection textarea {
+    width: 100%;
+    height: 10px;
+    
+    white-space: pre-wrap;
+    padding: auto;
+    margin: auto;
+    border-color: rgba(0, 0, 0, 255);
+    background-color: rgba(0, 0, 0, 0);
+
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;   
+    box-sizing: border-box; 
+}
+
+#editSection textarea:read-only {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+#editSection textarea:not(:read-only) {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+#editSection textarea.changed:read-only {
+    border-color: rgb(0, 251, 255);
+    background-color: rgba(0, 169, 163, 0.3);
+}
+
+#editSection textarea.changed:not(:read-only) {
+    border-color: rgb(0, 251, 255);
+    background-color: rgba(60, 255, 249, 0.3);
+}

@@ -4,53 +4,152 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <header>
-        <h1>Welcome to the Library</h1><!--
+        <h1>Welcome to the Library</h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Catalog</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="index.html">Home</a></li>
             </ul>
-        </nav>-->
+        </nav>
     </header>
     <main>
+        <!--
+        <section>
+            <form id="searchForm">
+                <select id="searchType" name="searchType">
+                    <option value="title" selected>Title</option>
+                    <option value="author">Author</option>
+                    <option value="publisher">Publisher</option>
+                </select>
+                <input type="text" id="searchInput" name="searchInput" placeholder="Enter book title, author or publisher">
+                <button type="submit">搜尋</button>
+            </form>
+        </section>
         <section>
             <label id="res"></label><hr>
             <div id="resultList">
                 
             </div>
         </section>
+        -->
         <section>
             <div id="pwDiv">
-                <label>Password:</label>
-                <input type="text" id="pw">
+                <label>Password:
+                    <input type="text" id="pw">
+                </label>
                 <button id="signin">Signin</button>
                 <label id="status"></label><br><br>
             </div>
             <div id="adminDiv" style="display:none">
-                <button id="writeData">Upload Data</button>
-                <input type="file" id="inputFile" accept=".xls,.xlsx,.ods"><br>
-
-                <label>skip lines:</label><input type="number" id="skipLine" min="0" step="1">
-                <div style="overflow-y: scroll; height:400px;">
-                    <div id="result"></div>
+                <div id="sectionMenu">
+                    <ul>
+                        <li><button id="upload" data-for="uploadSection">上載紀錄</button></li>
+                        <li><button id="edit" data-for="editSection">編輯紀錄</button></li>
+                        <li><button id="hide" data-for="hideSection">隱藏紀錄</button></li>
+                        <li><button id="delete" data-for="deleteSection">刪除紀錄</button></li>
+                        <li><button id="version" data-for="versionSection">版本紀錄</button></li>
+                    </ul>
                 </div>
+                <hr>
+                <div id="sectionContent">
+                    <section id="uploadSection" style="display:none">
+                        <button id="writeSingleData">Upload Record</button>
+                        <label id="uploadSingleStatus"></label>
+                        <br>
+                        <table style="width:100%; table-layout:fixed">
+                            <thead style="display:table-header-group">
+                                <tr>
+                                    <th>編號</th>
+                                    <th>Call Number 1</th>
+                                    <th>Call Number 2</th>
+                                    <th>書名</th>
+                                    <th>作者</th>
+                                    <th>出版社</th>
+                                    <th>簡介</th>
+                                </tr>
+                            <thead>
+                            <tbody id="uploadRecordEntry">
+                                <tr>
+                                    <td><div><textarea data-for="rID"></textarea><div></div></td>
+                                    <td><textarea data-for="cNum1"></textarea></td>
+                                    <td><textarea data-for="cNum2"></textarea></td>
+                                    <td><textarea data-for="title"></textarea></td>
+                                    <td><textarea data-for="author"></textarea></td>
+                                    <td><textarea data-for="publisher"></textarea></td>
+                                    <td><textarea data-for="notes"></textarea></td>
+                                </tr>
+                        </table>
+                        <hr>
+                        <button id="writeData">Upload Data</button>
+                        <label id="uploadStatus"></label>
+                        <br>
+                        <input type="file" id="inputFile" accept=".xls,.xlsx,.ods"><br>
+                        <label>skip lines:<input type="number" id="skipLine" min="0" step="1"></label>
+                        <div style="overflow-y: scroll; max-height:400px;">
+                            <div id="result">
+                                <table id="displayTable">
+                                    <thead style="display:table-header-group">
+                                        
+                                    </thead>
+                                    <tbody id="displayTableBody">
+    
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                    <section id="editSection" style="display:none">
+                        <div style="overflow-y: scroll; max-height:400px;">
+                            <table style="width:100%; table-layout:fixed">
+                                <thead style="display:table-header-group">
+                                    <tr>
+                                        <th>編號</th>
+                                        <th>Call Number 1</th>
+                                        <th>Call Number 2</th>
+                                        <th>書名</th>
+                                        <th>作者</th>
+                                        <th>出版社</th>
+                                        <th>簡介</th>
+                                        <th>--</th>
+                                    </tr>
+                                <thead>
+                                <tbody id="editTableBody">
+
+                                <tbody>
+                            </table>
+                        </div>
+                        
+                        <button data-action="saveAll">Save All</button>
+                        <button data-action="resetAll">Reset All</button>
+                    </section>
+                    <section id="hideSection" style="display:none">
+                        
+                    </section>
+                    <section id="deleteSection" style="display:none">
+                        
+                    </section>
+                    <section id="versionSection" style="display:none">
+                        
+                    </section>
+                </div>   
             </div>
         </section>
+        <hr>
+        
     </main>
     <footer>
         <p>&copy; All rights reserved.</p>
     </footer>
+    
+
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-firestore-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./admin.js?v=2" type="module"></script>
+    <script src="./admin.js?v=3" type="module"></script>
 </body>
 </html>

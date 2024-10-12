@@ -4,19 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=2">
 </head>
 <body>
     <header>
-        <h1>Welcome to the Library</h1><!--
+        <h1>Welcome to the Library</h1>
         <nav>
             <ul>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Catalog</a></li>
-                <li><a href="#">Contact</a></li>
+                <li><a href="admin.html">Admin</a></li>
             </ul>
-        </nav>-->
+        </nav>
     </header>
     <main>
         <section>
@@ -36,122 +33,6 @@
                 
             </div>
         </section>
-        <section>
-            <div id="pwDiv">
-                <label>Password:</label>
-                <input type="text" id="pw">
-                <button id="signin">Signin</button>
-                <label id="status"></label><br><br>
-            </div>
-            <div id="adminDiv" style="display:none">
-                <button id="writeData">Upload Data</button>
-                <input type="file" id="inputFile" accept=".xls,.xlsx,.ods"><br>
-
-                <label>skip lines:</label><input type="number" id="skipLine" min="0" step="1">
-                <div style="overflow-y: scroll; height:400px;">
-                    <div id="result">
-                        <table id="displayTable">
-                            <thead style="display:table-header-group">
-                                <tr>
-                                    <th>
-                                        選擇
-                                        <input type="checkbox" id="selectAll" checked="checked">
-                                    </th>
-                                    <th>-</th>
-                                    <th>
-                                        <select data-col="0">
-                                            <option value="def"></option>
-                                            <option value="rID" selected>編號</option>
-                                            <option value="cNum1">Call Number 1</option>
-                                            <option value="cNum2">Call Number 2</option>
-                                            <option value="title">書名</option>
-                                            <option value="author">作者</option>
-                                            <option value="publisher">出版社</option>
-                                            <option value="notes">簡介</option>
-                                        </select>
-                                    </th>
-                                    <th>
-                                        <select data-col="1">
-                                            <option value="def"></option>
-                                            <option value="rID">編號</option>
-                                            <option value="cNum1" selected>Call Number 1</option>
-                                            <option value="cNum2">Call Number 2</option>
-                                            <option value="title">書名</option>
-                                            <option value="author">作者</option>
-                                            <option value="publisher">出版社</option>
-                                            <option value="notes">簡介</option>
-                                        </select>
-                                    </th>
-                                    <th>
-                                        <select data-col="2">
-                                            <option value="def"></option>
-                                            <option value="rID">編號</option>
-                                            <option value="cNum1">Call Number 1</option>
-                                            <option value="cNum2" selected>Call Number 2</option>
-                                            <option value="title">書名</option>
-                                            <option value="author">作者</option>
-                                            <option value="publisher">出版社</option>
-                                            <option value="notes">簡介</option>
-                                        </select>
-                                    </th>
-                                    <th>
-                                        <select data-col="3">
-                                            <option value="def"></option>
-                                            <option value="rID">編號</option>
-                                            <option value="cNum1">Call Number 1</option>
-                                            <option value="cNum2">Call Number 2</option>
-                                            <option value="title" selected>書名</option>
-                                            <option value="author">作者</option>
-                                            <option value="publisher">出版社</option>
-                                            <option value="notes">簡介</option>
-                                        </select>
-                                    </th>
-                                    <th>
-                                        <select data-col="4"> 
-                                            <option value="def"></option>
-                                            <option value="rID">編號</option>
-                                            <option value="cNum1">Call Number 1</option>
-                                            <option value="cNum2">Call Number 2</option>
-                                            <option value="title">書名</option>
-                                            <option value="author" selected>作者</option>
-                                            <option value="publisher">出版社</option>
-                                            <option value="notes">簡介</option>
-                                        </select>
-                                    </th>
-                                    <th>
-                                        <select data-col="5">
-                                            <option value="def"></option>
-                                            <option value="rID">編號</option>
-                                            <option value="cNum1">Call Number 1</option>
-                                            <option value="cNum2">Call Number 2</option>
-                                            <option value="title">書名</option>
-                                            <option value="author">作者</option>
-                                            <option value="publisher" selected>出版社</option>
-                                            <option value="notes">簡介</option>
-                                        </select>
-                                    </th>
-                                    <th>
-                                        <select data-col="6">
-                                            <option value="def"></option>
-                                            <option value="rID">編號</option>
-                                            <option value="cNum1">Call Number 1</option>
-                                            <option value="cNum2">Call Number 2</option>
-                                            <option value="title">書名</option>
-                                            <option value="author">作者</option>
-                                            <option value="publisher">出版社</option>
-                                            <option value="notes" selected>簡介</option>
-                                        </select>
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody id="displayTableBody">
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </section>
     </main>
     <footer>
         <p>&copy; All rights reserved.</p>
@@ -161,6 +42,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./index.js?v=3" type="module"></script>
+    <script src="./index.js?v=4" type="module"></script>
 </body>
 </html>
