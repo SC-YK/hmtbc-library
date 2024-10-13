@@ -253,40 +253,25 @@ async function initEditTable()
         entriesText += `
         <tr>
             <td>
-                <div>
-                    <textarea data-for="rID" data-store="${entries[i][1].rID}" readonly="readonly">${entries[i][1].rID}</textarea>
-                </div>
-            </td>
-            
-            <td>
-                <div>
-                    <textarea data-for="cNum1" data-store="${entries[i][1].cNum1}" readonly="readonly">${entries[i][1].cNum1}</textarea>
-                </div>
+                <textarea data-for="rID" data-store="${entries[i][1].rID}" readonly="readonly">${entries[i][1].rID}</textarea>
             </td>
             <td>
-                <div>
-                    <textarea data-for="cNum2" data-store="${entries[i][1].cNum2}" readonly="readonly">${entries[i][1].cNum2}</textarea>
-                </div>
+                <textarea data-for="cNum1" data-store="${entries[i][1].cNum1}" readonly="readonly">${entries[i][1].cNum1}</textarea>
             </td>
             <td>
-                <div>
-                    <textarea data-for="title" data-store="${entries[i][1].title}" readonly="readonly">${entries[i][1].title}</textarea>
-                </div>
+                <textarea data-for="cNum2" data-store="${entries[i][1].cNum2}" readonly="readonly">${entries[i][1].cNum2}</textarea>
             </td>
             <td>
-                <div>
-                    <textarea data-for="author" data-store="${entries[i][1].author}" readonly="readonly">${entries[i][1].author}</textarea>
-                </div>
+                <textarea data-for="title" data-store="${entries[i][1].title}" readonly="readonly">${entries[i][1].title}</textarea>
             </td>
             <td>
-                <div>
-                    <textarea data-for="publisher" data-store="${entries[i][1].publisher}" readonly="readonly">${entries[i][1].publisher}</textarea>
-                </div>
+                <textarea data-for="author" data-store="${entries[i][1].author}" readonly="readonly">${entries[i][1].author}</textarea>
             </td>
             <td>
-                <div>
-                    <textarea data-for="notes" data-store="${entries[i][1].notes}" readonly="readonly">${entries[i][1].notes}</textarea>
-                </div>
+                <textarea data-for="publisher" data-store="${entries[i][1].publisher}" readonly="readonly">${entries[i][1].publisher}</textarea>
+            </td>
+            <td>
+                <textarea data-for="notes" data-store="${entries[i][1].notes}" readonly="readonly">${entries[i][1].notes}</textarea>
             </td>
             <td>
                 <button data-action="save" data-key="${entries[i][0]}">Save</button>
@@ -300,11 +285,11 @@ async function initEditTable()
     table.querySelectorAll("tr").forEach((tr) => {
         //const maxHeight = Math.max.apply(Math, Array.from(tr.querySelectorAll("textarea")).map(function(o) { return o.scrollHeight; }));
         tr.querySelectorAll("textarea").forEach(function(textarea) {
-            textarea.style.height = "50px";
+            textarea.style.height = "60px";
             textarea.style.overflow = "";
 
             textarea.addEventListener("input", function() {
-                tr = this.parentNode.parentNode.parentNode;
+                tr = this.parentNode.parentNode;
                 /*tr.querySelectorAll("textarea").forEach(function(textarea) {
                     textarea.style.height = "auto";
                 });
@@ -320,7 +305,7 @@ async function initEditTable()
                 {
                     this.classList.add('changed');
                 }
-                var tr = textarea.parentNode.parentNode.parentNode;
+                var tr = textarea.parentNode.parentNode;
                 tr.querySelector('[data-action="save"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
                 tr.querySelector('[data-action="reset"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
             });
@@ -339,7 +324,7 @@ async function initEditTable()
                 {
                     this.classList.add('changed');
                 }
-                var tr = textarea.parentNode.parentNode.parentNode;
+                var tr = textarea.parentNode.parentNode;
                 tr.querySelector('[data-action="save"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
                 tr.querySelector('[data-action="reset"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
             });
