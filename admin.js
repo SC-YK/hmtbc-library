@@ -253,25 +253,25 @@ async function initEditTable()
         entriesText += `
         <tr>
             <td>
-                <textarea data-for="rID" data-store="${entries[i][1].rID}" readonly="readonly">${entries[i][1].rID}</textarea>
+                <textarea data-for="rID" data-store="${entries[i][1].rID}">${entries[i][1].rID}</textarea>
             </td>
             <td>
-                <textarea data-for="cNum1" data-store="${entries[i][1].cNum1}" readonly="readonly">${entries[i][1].cNum1}</textarea>
+                <textarea data-for="cNum1" data-store="${entries[i][1].cNum1}">${entries[i][1].cNum1}</textarea>
             </td>
             <td>
-                <textarea data-for="cNum2" data-store="${entries[i][1].cNum2}" readonly="readonly">${entries[i][1].cNum2}</textarea>
+                <textarea data-for="cNum2" data-store="${entries[i][1].cNum2}">${entries[i][1].cNum2}</textarea>
             </td>
             <td>
-                <textarea data-for="title" data-store="${entries[i][1].title}" readonly="readonly">${entries[i][1].title}</textarea>
+                <textarea data-for="title" data-store="${entries[i][1].title}">${entries[i][1].title}</textarea>
             </td>
             <td>
-                <textarea data-for="author" data-store="${entries[i][1].author}" readonly="readonly">${entries[i][1].author}</textarea>
+                <textarea data-for="author" data-store="${entries[i][1].author}">${entries[i][1].author}</textarea>
             </td>
             <td>
-                <textarea data-for="publisher" data-store="${entries[i][1].publisher}" readonly="readonly">${entries[i][1].publisher}</textarea>
+                <textarea data-for="publisher" data-store="${entries[i][1].publisher}">${entries[i][1].publisher}</textarea>
             </td>
             <td>
-                <textarea data-for="notes" data-store="${entries[i][1].notes}" readonly="readonly">${entries[i][1].notes}</textarea>
+                <textarea data-for="notes" data-store="${entries[i][1].notes}">${entries[i][1].notes}</textarea>
             </td>
             <td>
                 <button data-action="save" data-key="${entries[i][0]}">Save</button>
@@ -309,12 +309,12 @@ async function initEditTable()
                 tr.querySelector('[data-action="save"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
                 tr.querySelector('[data-action="reset"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
             });
-            textarea.addEventListener("focus", function() {
+            /*textarea.addEventListener("focus", function() {
                 this.removeAttribute('readonly');
             });
             textarea.addEventListener("blur", function() {
                 this.setAttribute('readonly', 'readonly');
-            });
+            });*/
             textarea.addEventListener("change", function() {
                 if (this.value == this.getAttribute('data-store'))
                 {
@@ -369,6 +369,15 @@ async function initEditTable()
                 document.getElementById('uploadSingleStatus').innerHTML = `上載失敗 (${error})`;
             }); 
 
+        });
+        tr.querySelector('[data-action="reset"]').addEventListener("click", function(){
+            var tr = this.parentNode.parentNode;
+            tr.querySelectorAll(".changed").forEach(function(textarea) {
+                textarea.value = textarea.getAttribute('data-store');
+                textarea.classList.remove('changed');
+            });
+            tr.querySelector('[data-action="save"]').style.display = 'none';
+            tr.querySelector('[data-action="reset"]').style.display = 'none';
         });
         console.log(table.querySelectorAll("tr").length);
     });
