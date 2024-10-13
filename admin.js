@@ -298,20 +298,20 @@ async function initEditTable()
     table.innerHTML += entriesText;
     console.log(entries.length);
     table.querySelectorAll("tr").forEach((tr) => {
-        const maxHeight = Math.max.apply(Math, Array.from(tr.querySelectorAll("textarea")).map(function(o) { return o.scrollHeight; }));
+        //const maxHeight = Math.max.apply(Math, Array.from(tr.querySelectorAll("textarea")).map(function(o) { return o.scrollHeight; }));
         tr.querySelectorAll("textarea").forEach(function(textarea) {
-            //textarea.style.height = maxHeight + "px";
-            textarea.style.overflow = "hidden";
+            textarea.style.height = "50px";
+            textarea.style.overflow = "";
 
             textarea.addEventListener("input", function() {
                 tr = this.parentNode.parentNode.parentNode;
-                tr.querySelectorAll("textarea").forEach(function(textarea) {
+                /*tr.querySelectorAll("textarea").forEach(function(textarea) {
                     textarea.style.height = "auto";
                 });
                 const maxHeight = Math.max.apply(Math, Array.from(tr.querySelectorAll("textarea")).map(function(o) { return o.scrollHeight; }));
                 tr.querySelectorAll("textarea").forEach(function(textarea) {
                     textarea.style.height = maxHeight + "px";
-                });
+                });*/
                 if (this.value == this.getAttribute('data-store'))
                 {
                     this.classList.remove('changed');
@@ -650,12 +650,12 @@ document.getElementById('sectionMenu').querySelectorAll('button').forEach((butto
             section.style.display = 'none';
         });
         document.getElementById(button.getAttribute('data-for')).style.display = '';
-        if (button.getAttribute('data-for')== 'editSection')
+        /*if (button.getAttribute('data-for')== 'editSection')
         {
             document.getElementById('editTableBody').querySelectorAll("tr").forEach((tr) => {
                 tr.querySelector('textarea').dispatchEvent(new Event('input', { bubbles: true }));
             });
-        }
+        }*/
     });
 });
 
