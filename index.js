@@ -87,7 +87,7 @@ async function query(q, type, pageNumber)
     if (pageNumber > 1)
     {
         pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${1}">&lt&lt首頁</a> | `;
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber-1}">&lt上一頁</a> | `;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber-1}">&lt上頁</a> | `;
     }
     for (var i = Math.max(1, pageNumber - 2); i < pageNumber; i++)
     {
@@ -103,7 +103,7 @@ async function query(q, type, pageNumber)
     }
     if (pageNumber < Math.ceil(entries.length / entriesPerPage))
     {
-        pages.innerHTML += `| <a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber+1}">下一頁&gt </a>`;
+        pages.innerHTML += `| <a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber+1}">下頁&gt </a>`;
         pages.innerHTML += `| <a href="?searchInput=${q}&searchType=${type}&pageNumber=${Math.ceil(entries.length / entriesPerPage)}">尾頁&gt&gt</a>`;
     }
 

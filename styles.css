@@ -93,9 +93,15 @@ textarea {
 
 
 
+
 #pageSection {
     a{
-        text-decoration: none;
+        text-decoration: 0.8rem;
     }
-    font-size: min(3.2vw, 12px);
+    font-size: 12px;
+    @media (min-width:601px)  
+    { 
+        font-size: min(3.2vw, 16px);
+    }
+    
 }
