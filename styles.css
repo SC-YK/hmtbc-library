@@ -94,8 +94,8 @@ textarea {
 
 
 #pageSection {
-    a, u {
+    a{
         text-decoration: none;
     }
-    font-size: 18px;
+    font-size: 3vw;
 }
