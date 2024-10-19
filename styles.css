@@ -96,12 +96,12 @@ textarea {
 
 #pageSection {
     a{
-        text-decoration: 0.8rem;
+        text-decoration: none;
     }
-    font-size: 12px;
+    font-size: 0.8rem;
     @media (min-width:601px)  
     { 
-        font-size: min(3.2vw, 16px);
+        font-size: min(3.2vw, 14px);
     }
     
 }
