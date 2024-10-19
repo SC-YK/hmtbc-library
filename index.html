@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to the Library</h1>
+        <h1>書籍搜尋</h1>
         <nav>
             <ul>
                 <li><a href="admin.html">Admin</a></li>
@@ -19,19 +19,19 @@
         <section>
             <form id="searchForm">
                 <select id="searchType" name="searchType">
-                    <option value="title" selected>Title</option>
-                    <option value="author">Author</option>
-                    <option value="publisher">Publisher</option>
+                    <option value="title" selected>書名</option>
+                    <option value="author">作者</option>
+                    <option value="publisher">出版社</option>
                 </select>
-                <input type="text" id="searchInput" name="searchInput" placeholder="Enter book title, author or publisher">
+                <input type="text" id="searchInput" name="searchInput" placeholder="搜尋書名、作者、或出版社">
                 <button type="submit">搜尋</button>
             </form>
         </section>
         <section>
-            <label id="res"></label><hr>
-            <div id="resultList">
-                
-            </div>
+            <p id="res"></p>
+            <section id="pageSection"></section><hr>
+            <div id="resultList"></div>
+            <section id="pageSectionBottom"></section><hr>
         </section>
     </main>
     <footer>

@@ -90,3 +90,12 @@ textarea {
     border-color: rgb(0, 251, 255);
     background-color: rgba(60, 255, 249, 0.3);
 }
+
+
+
+#pageSection {
+    a, u {
+        text-decoration: none;
+    }
+    font-size: 18px;
+}
