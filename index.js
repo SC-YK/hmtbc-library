@@ -86,27 +86,27 @@ async function query(q, type, pageNumber)
     pages.innerHTML = '';
     if (pageNumber > 1)
     {
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${1}">&lt&lt</a> &nbsp;&nbsp; `;
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber-1}">&lt</a> &nbsp;&nbsp; `;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${1}">&lt&lt</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber-1}">&lt</a>`;
     }
     for (var i = Math.max(1, pageNumber - 2); i < pageNumber; i++)
     {
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a> &nbsp;`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a>`;
     }
-    pages.innerHTML += ` <a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber}" class="active">${pageNumber}</a> &nbsp; `;
+    pages.innerHTML += ` <a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber}" class="active">${pageNumber}</a>`;
     console.log(pageNumber + 1)
     console.log(Math.min(Math.ceil(entries.length / entriesPerPage), pageNumber + 3));
     for (var i = pageNumber + 1; i <= Math.min(Math.ceil(entries.length / entriesPerPage), pageNumber + 2); i++)
     {
         console.log(i);
-        pages.innerHTML += `&nbsp; <a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a>`;
     }
     if (pageNumber < Math.ceil(entries.length / entriesPerPage))
     {
-        pages.innerHTML += ` &nbsp;&nbsp; <a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber+1}">&gt </a>`;
-        pages.innerHTML += ` &nbsp;&nbsp; <a href="?searchInput=${q}&searchType=${type}&pageNumber=${Math.ceil(entries.length / entriesPerPage)}">&gt&gt</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber+1}">&gt</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${Math.ceil(entries.length / entriesPerPage)}">&gt&gt</a>`;
     }
-
+    console.log(pages.innerHTML);
     for (var i = (pageNumber - 1) * entriesPerPage; i < Math.min(pageNumber * entriesPerPage, entries.length); i++)
     {
         var doc = entries[i];
