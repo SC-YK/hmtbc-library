@@ -533,7 +533,7 @@ document.getElementById('skipLine').addEventListener('input', function(e) {
 document.getElementById('writeSingleData').addEventListener('click', function(e) {
     console.log('writeSingleData clicked');
     document.getElementById('uploadSingleStatus').innerHTML = "上載中";
-    const entry = document.getElementById('uploadRecordEntry');
+    const entry = document.getElementById('uploadSection');
     var record = {
         key: entry.querySelector('[data-for="rID"]').value,
         data: {
@@ -571,7 +571,11 @@ document.getElementById('writeSingleData').addEventListener('click', function(e)
     batch.update(logRef, logged);
     batch.commit().then(() => {
         console.log("Document successfully updated!");
-        document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
+        document.getElementById('uploadSingleStatus').innerHTML = `上載成功 ${record.data.title}`;
+        document.getElementById('uploadSingleHistory').innerHTML = `${new Date().toLocaleTimeString()}: ${record.data.title}<br>` + document.getElementById('uploadSingleHistory').innerHTML;
+        document.getElementById('uploadSection').querySelectorAll('input').forEach((input) => {
+            input.value = '';
+        });
     })
     .catch((error) => {
         console.error("Error updating document: ", error);
@@ -634,6 +638,7 @@ document.getElementById('writeData').addEventListener('click', function(e) {
     //localStorage.setItem('data', JSON.stringify(data));
  });
 
+ //choose section menu
 document.getElementById('sectionMenu').querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', function(e){
         document.getElementById('sectionMenu').querySelectorAll('button').forEach((b) => {
@@ -652,6 +657,28 @@ document.getElementById('sectionMenu').querySelectorAll('button').forEach((butto
         }*/
     });
 });
+document.getElementById('sectionMenu').querySelector('button').click();
+
+//reset fields of single record for upload
+document.getElementById('resetSingleData').addEventListener('click', function(e) {
+    console.log('resetSingleData clicked');
+    document.getElementById('uploadSection').querySelectorAll('input').forEach((input) => {
+        input.value = '';
+    });
+ });
+
+ //collapsible section
+ for (let coll of document.getElementsByClassName("collapsible")) {
+    coll.addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.display === "block") {
+        content.style.display = "none";
+        } else {
+        content.style.display = "block";
+        }
+    });
+}
 
 await getBookRecords();
 await initEditTable();

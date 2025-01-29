@@ -91,15 +91,15 @@ async function query(q, type, pageNumber)
     }
     for (var i = Math.max(1, pageNumber - 2); i < pageNumber; i++)
     {
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}"> (${i}) </a> &nbsp;`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a> &nbsp;`;
     }
-    pages.innerHTML += ` [<b>${pageNumber}</b>] `;
+    pages.innerHTML += ` <a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber}" class="active">${pageNumber}</a> &nbsp; `;
     console.log(pageNumber + 1)
     console.log(Math.min(Math.ceil(entries.length / entriesPerPage), pageNumber + 3));
     for (var i = pageNumber + 1; i <= Math.min(Math.ceil(entries.length / entriesPerPage), pageNumber + 2); i++)
     {
         console.log(i);
-        pages.innerHTML += `&nbsp; <a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}"> (${i}) </a>`;
+        pages.innerHTML += `&nbsp; <a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a>`;
     }
     if (pageNumber < Math.ceil(entries.length / entriesPerPage))
     {

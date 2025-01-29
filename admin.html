@@ -8,7 +8,7 @@
 </head>
 <body>
     <header>
-        <h1>Welcome to the Library</h1>
+        <h1>書籍系統管理</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -47,6 +47,7 @@
                 <div id="sectionMenu">
                     <ul>
                         <li><button id="upload" data-for="uploadSection">上載紀錄</button></li>
+                        <li><button id="uploadExcel" data-for="uploadExcelSection">上載Excel</button></li>
                         <li><button id="edit" data-for="editSection">編輯紀錄</button></li>
                         <li><button id="hide" data-for="hideSection">隱藏紀錄</button></li>
                         <li><button id="delete" data-for="deleteSection">刪除紀錄</button></li>
@@ -56,33 +57,49 @@
                 <hr>
                 <div id="sectionContent">
                     <section id="uploadSection" style="display:none">
-                        <button id="writeSingleData">Upload Record</button>
-                        <label id="uploadSingleStatus"></label>
                         <br>
-                        <table style="width:100%; table-layout:fixed">
-                            <thead style="display:table-header-group">
-                                <tr>
-                                    <th>編號</th>
-                                    <th>Call Number 1</th>
-                                    <th>Call Number 2</th>
-                                    <th>書名</th>
-                                    <th>作者</th>
-                                    <th>出版社</th>
-                                    <th>簡介</th>
-                                </tr>
-                            <thead>
-                            <tbody id="uploadRecordEntry">
-                                <tr>
-                                    <td><div><textarea data-for="rID"></textarea><div></div></td>
-                                    <td><textarea data-for="cNum1"></textarea></td>
-                                    <td><textarea data-for="cNum2"></textarea></td>
-                                    <td><textarea data-for="title"></textarea></td>
-                                    <td><textarea data-for="author"></textarea></td>
-                                    <td><textarea data-for="publisher"></textarea></td>
-                                    <td><textarea data-for="notes"></textarea></td>
-                                </tr>
-                        </table>
+                        <div id="formTable" style="width:100%; table-layout:fixed;">
+                            <button id="resetSingleData">重置</button>
+                            <div>
+                                <label>編號</label>
+                                <input type="text" data-for="rID" placeholder="A123">
+                            </div>
+                            <div>
+                                <label>Call Number 1</label>
+                                <input type="text" data-for="cNum1" placeholder="234.56">
+                            </div>
+                            <div>
+                                <label>Call Number 2</label>
+                                <input type="text" data-for="cNum2" placeholder="999">
+                            </div>
+                            <div>
+                                <label>書名</label>
+                                <input type="text" data-for="title" placeholder="書名">
+                            </div>
+                            <div>
+                                <label>作者</label>
+                                <input type="text" data-for="author" placeholder="作者">
+                            </div>
+                            <div>
+                                <label>出版社</label>
+                                <input type="text" data-for="publisher" placeholder="出版社">
+                            </div>
+                            <div>
+                                <label>簡介</label>
+                                <input type="text" data-for="notes">
+                            </div>
+                        </div>
+                        <button id="writeSingleData">上傳</button>
+                        <label id="uploadSingleStatus"></label>
+                        
                         <hr>
+                        <div>
+                            <label>最近上傳記錄</label>
+                            <div id="uploadSingleHistory"></div>
+                        </div>
+                    </section>
+
+                    <section id="uploadExcelSection" style="display:none">
                         <button id="writeData">Upload Data</button>
                         <label id="uploadStatus"></label>
                         <br>
@@ -101,6 +118,7 @@
                             </div>
                         </div>
                     </section>
+                    
                     <section id="editSection" style="display:none">
                         <div style="overflow-y: scroll; max-height:400px;">
                             <table style="width:100%; table-layout:fixed">

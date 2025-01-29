@@ -10,6 +10,7 @@ textarea {
 
 #sectionMenu ul {
     width: 100%;
+    height: 100%;
     display: table;
     table-layout: fixed;
     border-collapse: collapse;
@@ -20,6 +21,7 @@ textarea {
     border: 1px solid black;
     vertical-align: middle;
     word-wrap: break-word;
+    height: 100%;
 }
 #sectionMenu button {
     display: inline-block;
@@ -91,7 +93,71 @@ textarea {
     background-color: rgba(60, 255, 249, 0.3);
 }
 
+#formTable {
+    width: 100%;
+    border-collapse: collapse;
+}
 
+#formTable th {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+}
+
+#formTable input {
+    width: 100%;
+    font-size: 1.2rem;
+}
+
+#formTable div {
+    padding: 5px;
+}
+
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 12px;
+}
+  
+.active, .collapsible:hover {
+    background-color: #555;
+}
+  
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.pagination {
+    display: inline-block;
+}
+  
+.pagination a {
+    color: black;
+    float: left;
+    padding: 8px 8px;
+    text-decoration: none;
+    transition: background-color .3s;
+    border: 1px solid #ddd;
+    margin: 0 2px;
+    font-size: 1rem;
+}
+  
+.pagination a.active {
+    background-color: #4CAF50;
+    color: white;
+    border: 1px solid #4CAF50;
+}
+  
+.pagination a:hover:not(.active) {background-color: #ddd;}
 
 
 #pageSection {
