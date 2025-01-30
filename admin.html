@@ -49,9 +49,7 @@
                         <li><button id="upload" data-for="uploadSection">上載紀錄</button></li>
                         <li><button id="uploadExcel" data-for="uploadExcelSection">上載Excel</button></li>
                         <li><button id="edit" data-for="editSection">編輯紀錄</button></li>
-                        <li><button id="hide" data-for="hideSection">隱藏紀錄</button></li>
-                        <li><button id="delete" data-for="deleteSection">刪除紀錄</button></li>
-                        <li><button id="version" data-for="versionSection">版本紀錄</button></li>
+                        <!--<li><button id="version" data-for="versionSection">版本紀錄</button></li>-->
                     </ul>
                 </div>
                 <hr>
@@ -121,15 +119,16 @@
                     
                     <section id="editSection" style="display:none">
                         <div>
-                            <form id="searchForm">
-                                <select id="searchType" name="searchType">
-                                    <option value="title" selected>書名</option>
-                                    <option value="author">作者</option>
-                                    <option value="publisher">出版社</option>
-                                </select>
-                                <input type="text" id="searchInput" name="searchInput" placeholder="搜尋書名、作者、或出版社">
-                                <button type="submit">搜尋</button>
-                            </form>
+                            <select id="searchType" name="searchType">
+                                <option value="title" selected>書名</option>
+                                <option value="author">作者</option>
+                                <option value="publisher">出版社</option>
+                                <option value="rID">編號</option>
+                                <option value="cNum1">Call Number 1</option>
+                                <option value="cNum2">Call Number 2</option>
+                            </select>
+                            <input type="text" id="searchInput" name="searchInput" placeholder="搜尋書名、作者、或出版社">
+                            <button id="searchButton">搜尋</button>
                         </div>
                         <div>
                             <p id="res"></p>
@@ -139,7 +138,7 @@
                         </div>
                     </section>
 
-                    <section id="hideSection" style="display:none">
+                    <!--<section id="hideSection" style="display:none">
                         
                     </section>
 
@@ -149,7 +148,7 @@
 
                     <section id="versionSection" style="display:none">
                         
-                    </section>
+                    </section>-->
                 </div>   
             </div>
         </section>

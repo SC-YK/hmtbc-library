@@ -434,13 +434,13 @@ async function query(q, type)
         doc.score = 0;
         switch(type){
             case 'rID':
-                if (doc.rID == q) {doc.score += 1;}
+                if (doc.rID.toString().includes(q)) {doc.score += 1;}
                 break;
             case 'cNum1':
-                if (doc.cNum1 == q) {doc.score += 1;}
+                if (doc.cNum1.toString().includes(q)) {doc.score += 1;}
                 break;
             case 'cNum2':
-                if (doc.cNum2 == q) {doc.score += 1;}
+                if (doc.cNum2.toString().includes(q)) {doc.score += 1;}
                 break;
             case 'title':
                 if (doc.title.includes(q)) {doc.score += 1;}
@@ -823,6 +823,12 @@ document.getElementById('resetSingleData').addEventListener('click', function(e)
         }
     });
 }
+
+//search button
+document.getElementById('searchButton').addEventListener('click', function(e) {
+    console.log('searchButton clicked');
+    query(document.getElementById('searchInput').value, document.getElementById('searchType').value);
+});
 
 await getBookRecords();
 await query('', 'title');
