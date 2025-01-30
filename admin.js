@@ -463,7 +463,7 @@ async function query(q, type)
     entries.forEach((entry) => {
         var doc = entry[1];
         resultHTML += `
-        <div style="display:block;">
+        <div style="display:block;" class="entry">
             <input type="text" data-for="title" data-store="${doc.title}" value="${doc.title}">
             <br>
             <input type="text" data-for="author" data-store="${doc.author}" value="${doc.author}">
@@ -489,16 +489,18 @@ async function query(q, type)
                     </tr>
                 </tbody>
             </table>
-            <button data-action="delete" data-key="${entry[0]}">Delete</button>
-            <button data-action="save" data-key="${entry[0]}" style="display:none">Save</button>
-            <button data-action="reset"} style="display:none">Reset</button>
+            <button data-action="deleteFirst" style="float: right;">刪除</button>
+            <button data-action="delete" data-key="${entry[0]}" style="display:none; float: right;">確認刪除</button>
+            <button data-action="deleteCancel" style="display:none; float: right;">取消</button>
+            <button data-action="save" data-key="${entry[0]}" style="visibility:hidden;">儲存修改</button>
+            <button data-action="reset"} style="visibility:hidden;">重置修改</button>
             <hr>
         </div>
         `;
     });
     div.innerHTML = resultHTML;
 
-    div.querySelectorAll("div").forEach((div) => {
+    div.querySelectorAll(".entry").forEach((div) => {
         div.querySelectorAll("input").forEach(function(input) {
             input.addEventListener("input", function() {
                 if (this.value == this.getAttribute('data-store'))
@@ -510,8 +512,11 @@ async function query(q, type)
                     this.classList.add('changed');
                 }
                 var div = input.closest("div");
-                div.querySelector('[data-action="save"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
-                div.querySelector('[data-action="reset"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
+                div.querySelector('[data-action="save"]').style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
+                div.querySelector('[data-action="reset"]').style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
+                div.querySelector('[data-action="deleteFirst"]').style.display = div.querySelectorAll('.changed').length > 0 ? 'none' : '';
+                div.querySelector('[data-action="delete"]').style.display = 'none';
+                div.querySelector('[data-action="deleteCancel"]').style.display = 'none';
             });
             input.addEventListener("change", function() {
                 if (this.value == this.getAttribute('data-store'))
@@ -523,9 +528,24 @@ async function query(q, type)
                     this.classList.add('changed');
                 }
                 var div = input.closest("div");
-                div.querySelector('[data-action="save"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
-                div.querySelector('[data-action="reset"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
+                div.querySelector('[data-action="save"]').style.style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
+                div.querySelector('[data-action="reset"]').style.style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
+                div.querySelector('[data-action="deleteFirst"]').style.display = div.querySelectorAll('.changed').length > 0 ? 'none' : '';
+                div.querySelector('[data-action="delete"]').style.display = 'none';
+                div.querySelector('[data-action="deleteCancel"]').style.display = 'none';
             });
+        });
+        div.querySelector('[data-action="deleteFirst"]').addEventListener("click", function() {
+            var div = this.parentNode;
+            div.querySelector('[data-action="delete"]').style.display = '';
+            div.querySelector('[data-action="deleteCancel"]').style.display = '';
+            div.querySelector('[data-action="deleteFirst"]').style.display = 'none';
+        });
+        div.querySelector('[data-action="deleteCancel"]').addEventListener("click", function() {
+            var div = this.parentNode;
+            div.querySelector('[data-action="delete"]').style.display = 'none';
+            div.querySelector('[data-action="deleteCancel"]').style.display = 'none';
+            div.querySelector('[data-action="deleteFirst"]').style.display = '';
         });
         div.querySelector('[data-action="delete"]').addEventListener("click", function() {
             const key = this.getAttribute('data-key');
@@ -592,8 +612,9 @@ async function query(q, type)
                     input.setAttribute('data-store', input.value);
                     input.classList.remove('changed');
                 });
-                div.querySelector('[data-action="save"]').style.display = 'none';
-                div.querySelector('[data-action="reset"]').style.display = 'none'
+                div.querySelector('[data-action="save"]').style.visibility = 'hidden';
+                div.querySelector('[data-action="reset"]').style.visibility = 'hidden';
+                div.querySelector('[data-action="deleteFirst"]').style.display = '';
             })
             .catch((error) => {
                 console.error("Error updating document: ", error);
@@ -607,8 +628,9 @@ async function query(q, type)
                 textarea.value = textarea.getAttribute('data-store');
                 textarea.classList.remove('changed');
             });
-            div.querySelector('[data-action="save"]').style.display = 'none';
-            div.querySelector('[data-action="reset"]').style.display = 'none';
+            div.querySelector('[data-action="save"]').style.visibility = 'hidden';
+            div.querySelector('[data-action="reset"]').style.visibility = 'hidden';
+            div.querySelector('[data-action="deleteFirst"]').style.display = '';
         });
     });
 

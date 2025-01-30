@@ -48,6 +48,8 @@ textarea {
     border-color: rgba(0, 0, 0, 255);
     border-width: 0.5px;
     background-color: rgba(0, 0, 0, 0);
+    width: 100%;
+    font-size: 1.1rem;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;   
@@ -70,6 +72,10 @@ textarea {
 #editSection input.changed:not(:read-only) {
     border-color: rgb(200, 254, 255);
     background-color: rgba(138, 221, 221, 0.3);
+}
+
+#editSection button {
+    margin: 10px;
 }
 
 #formTable {
@@ -152,15 +158,6 @@ textarea {
 
 #resultList td:not(:first-child) {
     padding-left: 30px;
-}
-
-#resultList input {
-    width: 100%;
-}
-
-#resultList button {
-    margin: 5px;
-    margin-top: 10px;
 }
 
 #pageSection {
