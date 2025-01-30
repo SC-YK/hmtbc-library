@@ -135,7 +135,7 @@ async function query(q, type, pageNumber)
                 </tbody>
             </table>
             <hr>
-        <div>
+        </div>
         `;
     }
 

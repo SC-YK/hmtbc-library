@@ -40,34 +40,13 @@ textarea {
     background-color: #1b1b1b;
     color: #ffffff;
 }
-#editSection tr {
-    height: 10px;
-    margin: 0px;
-}
-#editSection td {
-    height: 10px;
-    position: relative;
-    margin: 0px;
-    padding: 0px;
-}
-#editSection div div {
-    width: 100%;
-    height: 100%;
-    margin: 0px;
-    padding: 0px;
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-#editSection textarea {
-    width: 100%;
-    height: 10px;
-    
+#editSection input {
     white-space: pre-wrap;
     padding: auto;
-    margin: auto;
+    margin: 1px;
     border-color: rgba(0, 0, 0, 255);
+    border-width: 0.5px;
     background-color: rgba(0, 0, 0, 0);
 
     -webkit-box-sizing: border-box;
@@ -75,22 +54,22 @@ textarea {
     box-sizing: border-box; 
 }
 
-#editSection textarea:read-only {
+#editSection input:read-only {
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-#editSection textarea:not(:read-only) {
+#editSection input:not(:read-only) {
     background-color: rgba(0, 0, 0, 0);
 }
 
-#editSection textarea.changed:read-only {
-    border-color: rgb(0, 251, 255);
-    background-color: rgba(0, 169, 163, 0.3);
+#editSection input.changed:read-only {
+    border-color: rgb(200, 254, 255);
+    background-color: rgba(138, 221, 221, 0.3);
 }
 
-#editSection textarea.changed:not(:read-only) {
-    border-color: rgb(0, 251, 255);
-    background-color: rgba(60, 255, 249, 0.3);
+#editSection input.changed:not(:read-only) {
+    border-color: rgb(200, 254, 255);
+    background-color: rgba(138, 221, 221, 0.3);
 }
 
 #formTable {
@@ -175,6 +154,14 @@ textarea {
     padding-left: 30px;
 }
 
+#resultList input {
+    width: 100%;
+}
+
+#resultList button {
+    margin: 5px;
+    margin-top: 10px;
+}
 
 #pageSection {
     a{

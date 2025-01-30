@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=3">
 </head>
 <body>
     <header>
@@ -89,12 +89,12 @@
                                 <input type="text" data-for="notes">
                             </div>
                         </div>
-                        <button id="writeSingleData">上傳</button>
+                        <button id="writeSingleData">上載</button>
                         <label id="uploadSingleStatus"></label>
                         
                         <hr>
                         <div>
-                            <label>最近上傳記錄</label>
+                            <label>最近上載記錄</label>
                             <div id="uploadSingleHistory"></div>
                         </div>
                     </section>
@@ -120,35 +120,33 @@
                     </section>
                     
                     <section id="editSection" style="display:none">
-                        <div style="overflow-y: scroll; max-height:400px;">
-                            <table style="width:100%; table-layout:fixed">
-                                <thead style="display:table-header-group">
-                                    <tr>
-                                        <th>編號</th>
-                                        <th>Call Number 1</th>
-                                        <th>Call Number 2</th>
-                                        <th>書名</th>
-                                        <th>作者</th>
-                                        <th>出版社</th>
-                                        <th>簡介</th>
-                                        <th>--</th>
-                                    </tr>
-                                <thead>
-                                <tbody id="editTableBody">
-
-                                <tbody>
-                            </table>
+                        <div>
+                            <form id="searchForm">
+                                <select id="searchType" name="searchType">
+                                    <option value="title" selected>書名</option>
+                                    <option value="author">作者</option>
+                                    <option value="publisher">出版社</option>
+                                </select>
+                                <input type="text" id="searchInput" name="searchInput" placeholder="搜尋書名、作者、或出版社">
+                                <button type="submit">搜尋</button>
+                            </form>
                         </div>
-                        
-                        <button data-action="saveAll">Save All</button>
-                        <button data-action="resetAll">Reset All</button>
+                        <div>
+                            <p id="res"></p>
+                            <div id="pageSection" class="pagination"></div><hr>
+                            <div id="resultList" style="display:block;"></div>
+                            <div id="pageSectionBottom" class="pagination"></div><hr>
+                        </div>
                     </section>
+
                     <section id="hideSection" style="display:none">
                         
                     </section>
+
                     <section id="deleteSection" style="display:none">
                         
                     </section>
+
                     <section id="versionSection" style="display:none">
                         
                     </section>

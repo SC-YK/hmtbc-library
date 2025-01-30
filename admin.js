@@ -427,9 +427,10 @@ async function query(q, type)
     var div = document.getElementById('resultList');
     div.innerHTML = '搜尋中';
     var resultHTML = '';
-    var dataScore = structuredClone(Object.values(data));
-    console.log(typeof(data));
+    var dataScore = structuredClone(Object.entries(data));
+    console.log(dataScore);
     dataScore.forEach((doc) => {
+        doc = doc[1];
         doc.score = 0;
         switch(type){
             case 'rID':
@@ -455,40 +456,161 @@ async function query(q, type)
                 break;
         }
     });
-    var entries = dataScore.filter((doc) => doc.score > 0);
-    entries.sort((a, b) => b.score - a.score);
+    var entries = dataScore.filter((doc) => doc[1].score > 0);
+    entries.sort((a, b) => b[1].score - a[1].score);
 
     
-    entries.forEach((doc) => {
+    entries.forEach((entry) => {
+        var doc = entry[1];
         resultHTML += `
-        <div>
-            <h2>${doc.title}</h2>
-            <h4>${doc.author}</h4>
+        <div style="display:block;">
+            <input type="text" data-for="title" data-store="${doc.title}" value="${doc.title}">
+            <br>
+            <input type="text" data-for="author" data-store="${doc.author}" value="${doc.author}">
+            <br>
+            <br>
             <table>
                 <tbody>
                     <tr>
                         <td>出版</td>
-                        <td>${doc.publisher}</td>
+                        <td><input type="text" data-for="publisher" data-store="${doc.publisher}" value="${doc.publisher}"></td>
                     </tr>
                     <tr>
                         <td>RID</td>
-                        <td>${doc.rID}</td>
+                        <td><input type="text" data-for="rID" data-store="${doc.rID}" value="${doc.rID}"></td>
                     </tr>
                     <tr>
                         <td>cNum1</td>
-                        <td>${doc.cNum1}</td>
+                        <td><input type="text" data-for="cNum1" data-store="${doc.cNum1}" value="${doc.cNum1}"></td>
                     </tr>
                     <tr>
                         <td>cNum2</td>
-                        <td>${doc.cNum2}</td>
+                        <td><input type="text" data-for="cNum2" data-store="${doc.cNum2}" value="${doc.cNum2}"></td>
                     </tr>
                 </tbody>
             </table>
+            <button data-action="delete" data-key="${entry[0]}">Delete</button>
+            <button data-action="save" data-key="${entry[0]}" style="display:none">Save</button>
+            <button data-action="reset"} style="display:none">Reset</button>
             <hr>
-        <div>
+        </div>
         `;
     });
     div.innerHTML = resultHTML;
+
+    div.querySelectorAll("div").forEach((div) => {
+        div.querySelectorAll("input").forEach(function(input) {
+            input.addEventListener("input", function() {
+                if (this.value == this.getAttribute('data-store'))
+                {
+                    this.classList.remove('changed');
+                }
+                else
+                {
+                    this.classList.add('changed');
+                }
+                var div = input.closest("div");
+                div.querySelector('[data-action="save"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
+                div.querySelector('[data-action="reset"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
+            });
+            input.addEventListener("change", function() {
+                if (this.value == this.getAttribute('data-store'))
+                {
+                    this.classList.remove('changed');
+                }
+                else
+                {
+                    this.classList.add('changed');
+                }
+                var div = input.closest("div");
+                div.querySelector('[data-action="save"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
+                div.querySelector('[data-action="reset"]').style.display = div.querySelectorAll('.changed').length > 0 ? '' : 'none';
+            });
+        });
+        div.querySelector('[data-action="delete"]').addEventListener("click", function() {
+            const key = this.getAttribute('data-key');
+            var records = {};
+            records[key] = firebase.firestore.FieldValue.delete();
+            var time = new Date().getTime().toString();
+            var batch = db.batch();
+
+            var recordsRef = db.collection("books").doc("records");
+            batch.update(recordsRef, records);
+            var versionRef = db.collection("version").doc("version");
+            batch.update(versionRef, {version: firebase.firestore.FieldValue.increment(1)});
+            var logRef = db.collection("books").doc("log");
+            
+            var randomId = db.collection("version").doc().id + "_" + time;
+            var logged = {};
+            logged[randomId] = {
+                time: firebase.firestore.FieldValue.serverTimestamp(), 
+                type: "delete", 
+                data: JSON.stringify(key)
+            };
+            batch.update(logRef, logged);
+            batch.commit().then(() => {
+                console.log("Document successfully updated!");
+                document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
+                var div = this.parentNode;
+                div.remove();
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+                document.getElementById('uploadSingleStatus').innerHTML = `上載失敗 (${error})`;
+            }); 
+        });
+        div.querySelector('[data-action="save"]').addEventListener("click", function() {
+            var div = this.parentNode;
+            var records = {};
+            const key = this.getAttribute('data-key');
+            div.querySelectorAll(".changed").forEach(function(input) {
+                records[`${key}.${input.getAttribute('data-for')}`] = input.value;
+            });
+            var time = new Date().getTime().toString();
+            var batch = db.batch();
+
+            var recordsRef = db.collection("books").doc("records");
+            batch.update(recordsRef, records);
+            console.log(records);
+            var versionRef = db.collection("version").doc("version");
+            batch.update(versionRef, {version: firebase.firestore.FieldValue.increment(1)});
+            var logRef = db.collection("books").doc("log");
+            
+            var randomId = db.collection("version").doc().id + "_" + time;
+            var logged = {};
+            logged[randomId] = {
+                time: firebase.firestore.FieldValue.serverTimestamp(), 
+                type: "edit", 
+                data: JSON.stringify(records)
+            };
+            batch.update(logRef, logged);
+            batch.commit().then(() => {
+                console.log("Document successfully updated!");
+                document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
+                var div = this.parentNode;
+                div.querySelectorAll(".changed").forEach(function(input) {
+                    input.setAttribute('data-store', input.value);
+                    input.classList.remove('changed');
+                });
+                div.querySelector('[data-action="save"]').style.display = 'none';
+                div.querySelector('[data-action="reset"]').style.display = 'none'
+            })
+            .catch((error) => {
+                console.error("Error updating document: ", error);
+                document.getElementById('uploadSingleStatus').innerHTML = `上載失敗 (${error})`;
+            }); 
+
+        });
+        div.querySelector('[data-action="reset"]').addEventListener("click", function(){
+            var div = this.parentNode;
+            div.querySelectorAll(".changed").forEach(function(textarea) {
+                textarea.value = textarea.getAttribute('data-store');
+                textarea.classList.remove('changed');
+            });
+            div.querySelector('[data-action="save"]').style.display = 'none';
+            div.querySelector('[data-action="reset"]').style.display = 'none';
+        });
+    });
 
     document.getElementById('res').innerHTML = '搜尋結果: ' + entries.length + '筆';
 }
@@ -681,11 +803,11 @@ document.getElementById('resetSingleData').addEventListener('click', function(e)
 }
 
 await getBookRecords();
-await initEditTable();
+await query('', 'title');
 
-Array.from(document.getElementById('editTableBody').querySelectorAll("tr")).slice().reverse().forEach((tr) => {
+/*Array.from(document.getElementById('editTableBody').querySelectorAll("tr")).slice().reverse().forEach((tr) => {
     tr.querySelector('textarea').dispatchEvent(new Event('input', { bubbles: true }));
-});
+});*/
 
 
 /*const params = new URLSearchParams(document.location.search);
