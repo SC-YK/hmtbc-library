@@ -785,6 +785,7 @@ document.getElementById('writeData').addEventListener('click', function(e) {
  //choose section menu
 document.getElementById('sectionMenu').querySelectorAll('button').forEach((button) => {
     button.addEventListener('click', function(e){
+        getBookRecords();
         document.getElementById('sectionMenu').querySelectorAll('button').forEach((b) => {
             b.classList.remove('selected');
         });
