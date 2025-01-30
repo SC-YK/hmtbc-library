@@ -363,6 +363,7 @@ async function initEditTable()
                 });
                 tr.querySelector('[data-action="save"]').style.display = 'none';
                 tr.querySelector('[data-action="reset"]').style.display = 'none'
+                getBookRecords();
             })
             .catch((error) => {
                 console.error("Error updating document: ", error);
@@ -573,6 +574,7 @@ async function query(q, type)
                 document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
                 var div = this.parentNode;
                 div.remove();
+                getBookRecords();
             })
             .catch((error) => {
                 console.error("Error updating document: ", error);
