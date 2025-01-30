@@ -57,13 +57,13 @@ async function query(q, type, pageNumber)
         doc.score = 0;
         switch(type){
             case 'rID':
-                if (doc.rID == q) {doc.score += 1;}
+                if (doc.rID.toString().includes(q)) {doc.score += 1;}
                 break;
             case 'cNum1':
-                if (doc.cNum1 == q) {doc.score += 1;}
+                if (doc.cNum1.toString().includes(q)) {doc.score += 1;}
                 break;
             case 'cNum2':
-                if (doc.cNum2 == q) {doc.score += 1;}
+                if (doc.cNum2.toString().includes(q)) {doc.score += 1;}
                 break;
             case 'title':
                 if (doc.title.includes(q)) {doc.score += 1;}
