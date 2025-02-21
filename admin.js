@@ -91,6 +91,13 @@ async function getBookRecords(){
     {
         data = JSON.parse(localStorage.getItem('data'));
     }
+    for (var d of Object.entries(data))
+    {
+        if (!d[1].hasOwnProperty('visible'))
+        {
+            d[1].visible = "true";
+        }
+    }
 }
 
 //add book record to database
@@ -297,13 +304,27 @@ async function initEditTable()
                 tr.querySelectorAll("textarea").forEach(function(textarea) {
                     textarea.style.height = maxHeight + "px";
                 });*/
-                if (this.value == this.getAttribute('data-store'))
+                if (textarea.type == 'text')
                 {
-                    this.classList.remove('changed');
+                    if (this.value == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
-                else
+                else if (textarea.type == 'checkbox')
                 {
-                    this.classList.add('changed');
+                    if (this.checked.toString() == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
                 var tr = textarea.parentNode.parentNode;
                 tr.querySelector('[data-action="save"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
@@ -316,14 +337,30 @@ async function initEditTable()
                 this.setAttribute('readonly', 'readonly');
             });*/
             textarea.addEventListener("change", function() {
-                if (this.value == this.getAttribute('data-store'))
+                if (this.type == 'text')
                 {
-                    this.classList.remove('changed');
+                    console.log(this.checked);
+                    if (this.value == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
-                else
+                else if (this.type == 'checkbox')
                 {
-                    this.classList.add('changed');
+                    if (this.checked.toString() == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
+                
                 var tr = textarea.parentNode.parentNode;
                 tr.querySelector('[data-action="save"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
                 tr.querySelector('[data-action="reset"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
@@ -358,8 +395,16 @@ async function initEditTable()
                 document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
                 var tr = this.parentNode.parentNode;
                 tr.querySelectorAll(".changed").forEach(function(textarea) {
-                    textarea.setAttribute('data-store', textarea.value);
-                    textarea.classList.remove('changed');
+                    if (this.value == this.getAttribute('data-store'))
+                    {
+                        textarea.setAttribute('data-store', textarea.value);
+                        textarea.classList.remove('changed');
+                    }
+                    else
+                    {
+                        textarea.setAttribute('data-store', textarea.checked);
+                        textarea.classList.remove('changed');
+                    }
                 });
                 tr.querySelector('[data-action="save"]').style.display = 'none';
                 tr.querySelector('[data-action="reset"]').style.display = 'none'
@@ -374,7 +419,21 @@ async function initEditTable()
         tr.querySelector('[data-action="reset"]').addEventListener("click", function(){
             var tr = this.parentNode.parentNode;
             tr.querySelectorAll(".changed").forEach(function(textarea) {
-                textarea.value = textarea.getAttribute('data-store');
+                if (textarea.type == "text")
+                {
+                    textarea.value = textarea.getAttribute('data-store');
+                }
+                else if (textarea.type == "checkbox")
+                {
+                    if (!textarea.getAttribute('data-store'))
+                    {
+                        textarea.classList.remove('changed');
+                    }
+                    else
+                    {
+                        textarea.classList.add('changed');
+                    }
+                }
                 textarea.classList.remove('changed');
             });
             tr.querySelector('[data-action="save"]').style.display = 'none';
@@ -488,6 +547,10 @@ async function query(q, type)
                         <td>作者號</td>
                         <td><input type="text" data-for="cNum2" data-store="${doc.cNum2}" value="${doc.cNum2}"></td>
                     </tr>
+                    <tr>
+                        <td>顯示</td>
+                        <td><input type="checkbox" data-for="visible" data-store="${doc.visible}" ${doc.visible=="true" ? "checked" : ""}></td>
+                    </tr>
                 </tbody>
             </table>
             <button data-action="deleteFirst" style="float: right;">刪除</button>
@@ -506,12 +569,27 @@ async function query(q, type)
             input.addEventListener("input", function() {
                 if (this.value == this.getAttribute('data-store'))
                 {
-                    this.classList.remove('changed');
+                    if (this.value == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
                 else
                 {
-                    this.classList.add('changed');
+                    if (this.checked.toString() == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
+                
                 var div = input.closest("div");
                 div.querySelector('[data-action="save"]').style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
                 div.querySelector('[data-action="reset"]').style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
@@ -520,17 +598,32 @@ async function query(q, type)
                 div.querySelector('[data-action="deleteCancel"]').style.display = 'none';
             });
             input.addEventListener("change", function() {
-                if (this.value == this.getAttribute('data-store'))
+                console.log(this.type);
+                if (this.type == "text")
                 {
-                    this.classList.remove('changed');
+                    if (this.value == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
-                else
+                else if (this.type == "checkbox")
                 {
-                    this.classList.add('changed');
+                    if (this.checked.toString() == this.getAttribute('data-store'))
+                    {
+                        this.classList.remove('changed');
+                    }
+                    else
+                    {
+                        this.classList.add('changed');
+                    }
                 }
                 var div = input.closest("div");
-                div.querySelector('[data-action="save"]').style.style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
-                div.querySelector('[data-action="reset"]').style.style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
+                div.querySelector('[data-action="save"]').style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
+                div.querySelector('[data-action="reset"]').style.visibility = div.querySelectorAll('.changed').length > 0 ? 'visible' : 'hidden';
                 div.querySelector('[data-action="deleteFirst"]').style.display = div.querySelectorAll('.changed').length > 0 ? 'none' : '';
                 div.querySelector('[data-action="delete"]').style.display = 'none';
                 div.querySelector('[data-action="deleteCancel"]').style.display = 'none';
@@ -586,7 +679,14 @@ async function query(q, type)
             var records = {};
             const key = this.getAttribute('data-key');
             div.querySelectorAll(".changed").forEach(function(input) {
-                records[`${key}.${input.getAttribute('data-for')}`] = input.value;
+                if (input.type == "text")
+                {
+                    records[`${key}.${input.getAttribute('data-for')}`] = input.value;
+                }
+                else if (input.type == "checkbox")
+                {
+                    records[`${key}.${input.getAttribute('data-for')}`] = input.checked ? "true" : "false";
+                }
             });
             var time = new Date().getTime().toString();
             var batch = db.batch();
@@ -611,8 +711,16 @@ async function query(q, type)
                 document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
                 var div = this.parentNode;
                 div.querySelectorAll(".changed").forEach(function(input) {
-                    input.setAttribute('data-store', input.value);
-                    input.classList.remove('changed');
+                    if (input.type == 'text')
+                    {
+                        input.setAttribute('data-store', input.value);
+                        input.classList.remove('changed');
+                    }
+                    else if (input.type == 'checkbox')
+                    {
+                        input.setAttribute('data-store', input.checked);
+                        input.classList.remove('changed');
+                    }
                 });
                 div.querySelector('[data-action="save"]').style.visibility = 'hidden';
                 div.querySelector('[data-action="reset"]').style.visibility = 'hidden';
@@ -627,8 +735,16 @@ async function query(q, type)
         div.querySelector('[data-action="reset"]').addEventListener("click", function(){
             var div = this.parentNode;
             div.querySelectorAll(".changed").forEach(function(textarea) {
-                textarea.value = textarea.getAttribute('data-store');
-                textarea.classList.remove('changed');
+                if (textarea.type == 'text')
+                {
+                    textarea.value = textarea.getAttribute('data-store');
+                    textarea.classList.remove('changed');
+                }
+                else if (textarea.type == 'checkbox')
+                {
+                    textarea.checked = textarea.getAttribute('data-store');
+                    textarea.classList.remove('changed');
+                }
             });
             div.querySelector('[data-action="save"]').style.visibility = 'hidden';
             div.querySelector('[data-action="reset"]').style.visibility = 'hidden';
@@ -690,6 +806,7 @@ document.getElementById('writeSingleData').addEventListener('click', function(e)
             author: entry.querySelector('[data-for="author"]').value,
             publisher: entry.querySelector('[data-for="publisher"]').value,
             notes: entry.querySelector('[data-for="notes"]').value,
+            visible: entry.querySelector('[data-for="visible"]').checked ? "true" : "false",
         }
     };
     
@@ -810,7 +927,14 @@ document.getElementById('sectionMenu').querySelector('button').click();
 document.getElementById('resetSingleData').addEventListener('click', function(e) {
     console.log('resetSingleData clicked');
     document.getElementById('uploadSection').querySelectorAll('input').forEach((input) => {
-        input.value = '';
+        if (input.type == "text")
+        {
+            input.value = '';
+        }
+        else if (input.type == "checkbox")
+        {
+            input.checked = true;
+        }
     });
  });
 

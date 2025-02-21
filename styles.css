@@ -50,6 +50,7 @@ textarea {
     background-color: rgba(0, 0, 0, 0);
     width: 100%;
     font-size: 1.1rem;
+    outline: 0px;
 
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;   
@@ -64,14 +65,13 @@ textarea {
     background-color: rgba(0, 0, 0, 0);
 }
 
-#editSection input.changed:read-only {
+#editSection input.changed{
     border-color: rgb(200, 254, 255);
     background-color: rgba(138, 221, 221, 0.3);
 }
 
-#editSection input.changed:not(:read-only) {
-    border-color: rgb(200, 254, 255);
-    background-color: rgba(138, 221, 221, 0.3);
+#editSection input[type="checkbox"].changed{
+    outline: 2px solid rgb(200, 254, 255);
 }
 
 #editSection button {

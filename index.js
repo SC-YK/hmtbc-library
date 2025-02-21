@@ -51,7 +51,9 @@ async function query(q, type, pageNumber)
     var div = document.getElementById('resultList');
     div.innerHTML = '搜尋中';
     var resultHTML = '';
-    var dataScore = structuredClone(Object.values(data));
+    var dataScore = structuredClone(Object.values(data)).filter(function (el) {
+        return (!el.hasOwnProperty('visible')) || ((el.visible) == "true");
+    });
     console.log(typeof(data));
     dataScore.forEach((doc) => {
         doc.score = 0;
@@ -131,6 +133,10 @@ async function query(q, type, pageNumber)
                     <tr>
                         <td>作者號</td>
                         <td>${doc.cNum2}</td>
+                    </tr>
+                    <tr>
+                        <td>資訊</td>
+                        <td>${doc.notes}</td>
                     </tr>
                 </tbody>
             </table>

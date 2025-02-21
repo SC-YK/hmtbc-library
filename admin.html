@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css?v=10">
+    <link rel="stylesheet" href="styles.css?v=12">
 </head>
 <body>
     <header>
@@ -86,6 +86,10 @@
                                 <label>簡介</label>
                                 <input type="text" data-for="notes">
                             </div>
+                            <div>
+                                <label>顯示</label>
+                                <input type="checkbox" data-for="visible" checked>
+                            </div>
                         </div>
                         <button id="writeSingleData">上載</button>
                         <label id="uploadSingleStatus"></label>
@@ -165,6 +169,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./admin.js?v=10" type="module"></script>
+    <script src="./admin.js?v=11" type="module"></script>
 </body>
 </html>
