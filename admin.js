@@ -548,6 +548,10 @@ async function query(q, type)
                         <td><input type="text" data-for="cNum2" data-store="${doc.cNum2}" value="${doc.cNum2}"></td>
                     </tr>
                     <tr>
+                        <td>資訊</td>
+                        <td><input type="text" data-for="notes" data-store="${doc.notes}" value="${doc.notes}"></td>
+                    </tr>
+                    <tr>
                         <td>顯示</td>
                         <td><input type="checkbox" data-for="visible" data-store="${doc.visible}" ${doc.visible=="true" ? "checked" : ""}></td>
                     </tr>
