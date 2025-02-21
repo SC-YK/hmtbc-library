@@ -121,15 +121,15 @@ async function query(q, type, pageNumber)
                         <td>${doc.publisher}</td>
                     </tr>
                     <tr>
-                        <td>RID</td>
+                        <td>書籍序號(B...)</td>
                         <td>${doc.rID}</td>
                     </tr>
                     <tr>
-                        <td>cNum1</td>
+                        <td>索書號</td>
                         <td>${doc.cNum1}</td>
                     </tr>
                     <tr>
-                        <td>cNum2</td>
+                        <td>作者號</td>
                         <td>${doc.cNum2}</td>
                     </tr>
                 </tbody>

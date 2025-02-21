@@ -227,9 +227,9 @@ for (var i = 0; i < 20; i++){
     <th style="display:none">
         <select data-col="${i}">
             <option value="def"></option>
-            <option value="rID">編號</option>
-            <option value="cNum1">Call Number 1</option>
-            <option value="cNum2">Call Number 2</option>
+            <option value="rID">書籍序號(B...)</option>
+            <option value="cNum1">索書號</option>
+            <option value="cNum2">作者號</option>
             <option value="title">書名</option>
             <option value="author">作者</option>
             <option value="publisher">出版社</option>
@@ -477,15 +477,15 @@ async function query(q, type)
                         <td><input type="text" data-for="publisher" data-store="${doc.publisher}" value="${doc.publisher}"></td>
                     </tr>
                     <tr>
-                        <td>RID</td>
+                        <td>書籍序號(B...)</td>
                         <td><input type="text" data-for="rID" data-store="${doc.rID}" value="${doc.rID}"></td>
                     </tr>
                     <tr>
-                        <td>cNum1</td>
+                        <td>索書號</td>
                         <td><input type="text" data-for="cNum1" data-store="${doc.cNum1}" value="${doc.cNum1}"></td>
                     </tr>
                     <tr>
-                        <td>cNum2</td>
+                        <td>作者號</td>
                         <td><input type="text" data-for="cNum2" data-store="${doc.cNum2}" value="${doc.cNum2}"></td>
                     </tr>
                 </tbody>
