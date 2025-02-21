@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css?v=12">
+    <link rel="stylesheet" href="styles.css?v=13">
 </head>
 <body>
     <header>
@@ -57,7 +57,9 @@
                     <section id="uploadSection" style="display:none">
                         <br>
                         <div id="formTable" style="width:100%; table-layout:fixed;">
-                            <button id="resetSingleData">重置</button>
+                            <div style="display: flex; justify-content: right;">
+                                <button id="resetSingleData">重置</button>
+                            </div>
                             <div>
                                 <label>書籍序號(B...)</label>
                                 <input type="text" data-for="rID" placeholder="B123">
@@ -91,7 +93,9 @@
                                 <input type="checkbox" data-for="visible" checked>
                             </div>
                         </div>
-                        <button id="writeSingleData">上載</button>
+                        <div style="display: flex; justify-content: right;">
+                            <button id="writeSingleData" style="margin-left: auto;margin-right: 0;">上載</button>
+                        </div>
                         <label id="uploadSingleStatus"></label>
                         
                         <hr>
@@ -169,6 +173,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./admin.js?v=11" type="module"></script>
+    <script src="./admin.js?v=13" type="module"></script>
 </body>
 </html>

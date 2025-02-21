@@ -41,6 +41,10 @@ textarea {
     color: #ffffff;
 }
 
+#uploadSection input[type="checkbox"] {
+    width: auto;
+}
+
 #editSection input {
     white-space: pre-wrap;
     padding: auto;
@@ -55,6 +59,10 @@ textarea {
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;   
     box-sizing: border-box; 
+}
+
+#editSection input[type="checkbox"] {
+    width: auto;
 }
 
 #editSection input:read-only {
