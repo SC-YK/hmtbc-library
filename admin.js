@@ -482,7 +482,7 @@ document.getElementById('displayTable').querySelector('thead').querySelectorAll(
     });
 });
 
-async function query(q, type)
+async function query(q, type, sort)
 {
     var div = document.getElementById('resultList');
     div.innerHTML = '搜尋中';
@@ -517,7 +517,85 @@ async function query(q, type)
         }
     });
     var entries = dataScore.filter((doc) => doc[1].score > 0);
-    entries.sort((a, b) => b[1].score - a[1].score);
+    
+    function rIDTransform(rID)
+    {
+        let v = rID.indexOf("B");
+        if (v >= 0)
+        {
+            let s = rID.substring(v+1);
+            if (!isNaN(s)) return Number(s);
+        }
+        return 99999;
+    }
+    function cNum1Transform(s)
+    {
+        s = String(s);
+        let num = 99999999;
+        if (s.match("^[0-9.]*$"))
+        {
+            var v = s.indexOf(".");
+            if (v >= 0)
+            {
+                v = s.indexOf(".", v+1);
+            }
+            if (v >= 0) s = s.substring(0, v);
+            if (!isNaN(s))
+            {
+                num = Number(s);
+            }
+            if (isNaN(num))
+            {
+                num = 99999999;
+            }
+        }
+        return num;
+    }
+    function cNum2Transform(s)
+    {
+        if (!isNaN(s))
+            {
+                return Number(s);
+            }
+        return 99999;
+    }
+    switch(sort){
+        case 'title_':
+            entries.sort((a, b) => b[1].title.length - a[1].title.length );
+            break;
+
+        case 'title':
+            entries.sort((a, b) => a[1].title.length - b[1].title.length );
+            break;
+
+        case 'rID_':
+            entries.sort((a, b) => rIDTransform(b[1].rID) - rIDTransform(a[1].rID) );
+            break;
+            
+        case 'rID':
+            entries.sort((a, b) => rIDTransform(a[1].rID) - rIDTransform(b[1].rID) );
+            break;
+            
+        case 'cNum1_':
+            entries.sort((a, b) => cNum1Transform(b[1].cNum1) - cNum1Transform(a[1].cNum1) );
+            break;
+            
+        case 'cNum1':
+            entries.sort((a, b) => cNum1Transform(a[1].cNum1) - cNum1Transform(b[1].cNum1) );
+            break;
+            
+        case 'cNum2_':
+            entries.sort((a, b) => cNum2Transform(b[1].cNum2) - cNum2Transform(a[1].cNum2) );
+            break;
+            
+        case 'cNum2':
+            entries.sort((a, b) => cNum2Transform(a[1].cNum2) - cNum2Transform(b[1].cNum2) );
+            break;
+            
+        default:
+            entries.sort((a, b) => b[1].score - a[1].score);
+            break;
+    }
 
     
     entries.forEach((entry) => {
@@ -958,11 +1036,11 @@ document.getElementById('resetSingleData').addEventListener('click', function(e)
 //search button
 document.getElementById('searchButton').addEventListener('click', function(e) {
     console.log('searchButton clicked');
-    query(document.getElementById('searchInput').value, document.getElementById('searchType').value);
+    query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
 });
 
 await getBookRecords();
-await query('', 'title');
+await query('', 'title', 'default');
 
 /*Array.from(document.getElementById('editTableBody').querySelectorAll("tr")).slice().reverse().forEach((tr) => {
     tr.querySelector('textarea').dispatchEvent(new Event('input', { bubbles: true }));

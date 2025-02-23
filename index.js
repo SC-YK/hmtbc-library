@@ -42,8 +42,9 @@ async function getBookRecords(){
     }
 }
 
-async function query(q, type, pageNumber)
+async function query(q, type, sort, pageNumber)
 {
+    console.log(sort);
     const entriesPerPage = 50;
     q = q == null ? '' : q;
     type = type == null ? 'title' : type;
@@ -82,31 +83,109 @@ async function query(q, type, pageNumber)
         }
     });
     var entries = dataScore.filter((doc) => doc.score > 0);
-    entries.sort((a, b) => b.score - a.score);
+
+    function rIDTransform(rID)
+    {
+        let v = rID.indexOf("B");
+        if (v >= 0)
+        {
+            let s = rID.substring(v+1);
+            if (!isNaN(s)) return Number(s);
+        }
+        return 99999;
+    }
+    function cNum1Transform(s)
+    {
+        s = String(s);
+        let num = 99999999;
+        if (s.match("^[0-9.]*$"))
+        {
+            var v = s.indexOf(".");
+            if (v >= 0)
+            {
+                v = s.indexOf(".", v+1);
+            }
+            if (v >= 0) s = s.substring(0, v);
+            if (!isNaN(s))
+            {
+                num = Number(s);
+            }
+            if (isNaN(num))
+            {
+                num = 99999999;
+            }
+        }
+        return num;
+    }
+    function cNum2Transform(s)
+    {
+        if (!isNaN(s))
+            {
+                return Number(s);
+            }
+        return 99999;
+    }
+    switch(sort){
+        case 'title_':
+            entries.sort((a, b) => b.title.length - a.title.length );
+            break;
+
+        case 'title':
+            entries.sort((a, b) => a.title.length - b.title.length );
+            break;
+
+        case 'rID_':
+            entries.sort((a, b) => rIDTransform(b.rID) - rIDTransform(a.rID) );
+            break;
+            
+        case 'rID':
+            entries.sort((a, b) => rIDTransform(a.rID) - rIDTransform(b.rID) );
+            break;
+            
+        case 'cNum1_':
+            entries.sort((a, b) => cNum1Transform(b.cNum1) - cNum1Transform(a.cNum1) );
+            break;
+            
+        case 'cNum1':
+            entries.sort((a, b) => cNum1Transform(a.cNum1) - cNum1Transform(b.cNum1) );
+            break;
+            
+        case 'cNum2_':
+            entries.sort((a, b) => cNum2Transform(b.cNum2) - cNum2Transform(a.cNum2) );
+            break;
+            
+        case 'cNum2':
+            entries.sort((a, b) => cNum2Transform(a.cNum2) - cNum2Transform(b.cNum2) );
+            break;
+            
+        default:
+            entries.sort((a, b) => b.score - a.score);
+            break;
+    }
 
     var pages = document.getElementById('pageSection');
     pages.innerHTML = '';
     if (pageNumber > 1)
     {
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${1}">&lt&lt</a>`;
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber-1}">&lt</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&sortType=${sort}&pageNumber=${1}">&lt&lt</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&sortType=${sort}&pageNumber=${pageNumber-1}">&lt</a>`;
     }
     for (var i = Math.max(1, pageNumber - 2); i < pageNumber; i++)
     {
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&sortType=${sort}&pageNumber=${i}">${i}</a>`;
     }
-    pages.innerHTML += ` <a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber}" class="active">${pageNumber}</a>`;
+    pages.innerHTML += ` <a href="?searchInput=${q}&searchType=${type}&sortType=${sort}&pageNumber=${pageNumber}" class="active">${pageNumber}</a>`;
     console.log(pageNumber + 1)
     console.log(Math.min(Math.ceil(entries.length / entriesPerPage), pageNumber + 3));
     for (var i = pageNumber + 1; i <= Math.min(Math.ceil(entries.length / entriesPerPage), pageNumber + 2); i++)
     {
         console.log(i);
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${i}">${i}</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&sortType=${sort}&pageNumber=${i}">${i}</a>`;
     }
     if (pageNumber < Math.ceil(entries.length / entriesPerPage))
     {
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${pageNumber+1}">&gt</a>`;
-        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&pageNumber=${Math.ceil(entries.length / entriesPerPage)}">&gt&gt</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&sortType=${sort}&pageNumber=${pageNumber+1}">&gt</a>`;
+        pages.innerHTML += `<a href="?searchInput=${q}&searchType=${type}&sortType=${sort}&pageNumber=${Math.ceil(entries.length / entriesPerPage)}">&gt&gt</a>`;
     }
     console.log(pages.innerHTML);
     for (var i = (pageNumber - 1) * entriesPerPage; i < Math.min(pageNumber * entriesPerPage, entries.length); i++)
@@ -163,7 +242,8 @@ await getBookRecords();
 const params = new URLSearchParams(document.location.search);
 document.getElementById('searchInput').value = params.get('searchInput');
 document.getElementById('searchType').value = params.get('searchType') == null ? 'title' : params.get('searchType');
-query(params.get('searchInput'), params.get('searchType'), params.get('pageNumber'));
+document.getElementById('sortType').value = params.get('sortType') == null ? 'default' : params.get('sortType');
+query(params.get('searchInput'), params.get('searchType'), params.get('sortType'), params.get('pageNumber'));
 //console.log(document.location.search);
 //localStorage.setItem('data', JSON.stringify(data));
 //var loaded = localStorage.getItem('data') != null ? JSON.parse(localStorage.getItem('data')) : getDataFromFile();

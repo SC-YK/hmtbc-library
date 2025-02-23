@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css?v=14">
+    <link rel="stylesheet" href="styles.css?v=15">
 </head>
 <body>
     <header>
@@ -137,6 +137,21 @@
                             </select>
                             <input type="text" id="searchInput" name="searchInput" placeholder="搜尋書名、作者、或出版社">
                             <button id="searchButton">搜尋</button>
+                            <hr>
+                            <div style="display: flex; justify-content:right">
+                                <label>排序: &nbsp;</label>
+                                <select id="sortType" name="sortType">
+                                    <option value="default" selected></option>
+                                    <option value="title">書名字數(最少)</option>
+                                    <option value="title_">書名字數(最多)</option>
+                                    <option value="rID">書籍序號(B...)(最小)</option>
+                                    <option value="rID_">書籍序號(B...)(最大)</option>
+                                    <option value="cNum1">索書號(最小)</option>
+                                    <option value="cNum1_">索書號(最大)</option>
+                                    <option value="cNum2">作者號(最小)</option>
+                                    <option value="cNum2_">作者號(最大)</option>
+                                </select>
+                            </div>
                         </div>
                         <div>
                             <p id="res"></p>
@@ -173,6 +188,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./admin.js?v=14" type="module"></script>
+    <script src="./admin.js?v=15" type="module"></script>
 </body>
 </html>
