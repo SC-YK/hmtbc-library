@@ -664,7 +664,7 @@ async function query(q, type, sort)
     div.querySelectorAll(".entry").forEach((div) => {
         div.querySelectorAll("input,select").forEach(function(input) {
             input.addEventListener("input", function() {
-                if (this.value == this.getAttribute('data-store'))
+                if (this.type == "button" || this instanceof HTMLSelectElement)
                 {
                     if (this.value == this.getAttribute('data-store'))
                     {
