@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css?v=16">
+    <link rel="stylesheet" href="styles.css?v=17">
 </head>
 <body>
     <header>
@@ -91,6 +91,14 @@
                             <div>
                                 <label>顯示</label>
                                 <input type="checkbox" data-for="visible" checked>
+                            </div>
+                            <div>
+                                <label>種類</label>
+                                <select data-for="type">
+                                    <option value="lend" selected="selected">外借圖書</option>
+                                    <option value="take">漂書</option>
+                                    <option value="reference">參考圖書（不外借）</option>
+                                </select>
                             </div>
                         </div>
                         <div style="display: flex; justify-content: right;">
@@ -188,6 +196,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./admin.js?v=16" type="module"></script>
+    <script src="./admin.js?v=17" type="module"></script>
 </body>
 </html>

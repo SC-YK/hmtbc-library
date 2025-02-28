@@ -215,7 +215,7 @@ async function query(q, type, sort, pageNumber)
                     </tr>
                     <tr>
                         <td>資訊</td>
-                        <td>${doc.notes}</td>
+                        <td>${BookTypeToString(doc.hasOwnProperty("type") ? doc.type : "")}; ${doc.notes}</td>
                     </tr>
                 </tbody>
             </table>
@@ -233,6 +233,19 @@ async function query(q, type, sort, pageNumber)
     div.innerHTML = resultHTML;
 
     document.getElementById('res').innerHTML = `搜尋結果: ${entries.length} 筆 | 顯示第${pageNumber}頁 (${(pageNumber - 1) * entriesPerPage + 1} - ${Math.min(pageNumber * entriesPerPage, entries.length)})`;
+}
+
+function BookTypeToString(type)
+{
+    switch (type) {
+        case 'lend':
+            return '外借圖書'
+        case 'take':
+            return '漂書'
+        case 'reference':
+            return '參考圖書（不外借）'
+    }
+    return '漂書'
 }
 
 var data = [];

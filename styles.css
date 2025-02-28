@@ -45,7 +45,7 @@ textarea {
     width: auto;
 }
 
-#editSection input {
+#editSection input{
     white-space: pre-wrap;
     padding: auto;
     margin: 1px;
@@ -73,7 +73,7 @@ textarea {
     background-color: rgba(0, 0, 0, 0);
 }
 
-#editSection input.changed{
+#editSection input.changed,select.changed {
     border-color: rgb(200, 254, 255);
     background-color: rgba(138, 221, 221, 0.3);
 }

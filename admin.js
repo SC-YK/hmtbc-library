@@ -97,6 +97,10 @@ async function getBookRecords(){
         {
             d[1].visible = "true";
         }
+        if (!d[1].hasOwnProperty('type'))
+        {
+            d[1].type = "take";
+        }
     }
 }
 
@@ -304,7 +308,7 @@ async function initEditTable()
                 tr.querySelectorAll("textarea").forEach(function(textarea) {
                     textarea.style.height = maxHeight + "px";
                 });*/
-                if (textarea.type == 'text')
+                if (textarea.type == 'text' || textarea instanceof HTMLSelectElement)
                 {
                     if (this.value == this.getAttribute('data-store'))
                     {
@@ -337,9 +341,9 @@ async function initEditTable()
                 this.setAttribute('readonly', 'readonly');
             });*/
             textarea.addEventListener("change", function() {
-                if (this.type == 'text')
+                console.log(textarea.value);
+                if (this.type == 'text'|| textarea instanceof HTMLSelectElement)
                 {
-                    console.log(this.checked);
                     if (this.value == this.getAttribute('data-store'))
                     {
                         this.classList.remove('changed');
@@ -419,7 +423,7 @@ async function initEditTable()
         tr.querySelector('[data-action="reset"]').addEventListener("click", function(){
             var tr = this.parentNode.parentNode;
             tr.querySelectorAll(".changed").forEach(function(textarea) {
-                if (textarea.type == "text")
+                if (textarea.type == "text" || textarea instanceof HTMLSelectElement)
                 {
                     textarea.value = textarea.getAttribute('data-store');
                 }
@@ -630,6 +634,16 @@ async function query(q, type, sort)
                         <td><input type="text" data-for="notes" data-store="${doc.notes}" value="${doc.notes}"></td>
                     </tr>
                     <tr>
+                        <td>種類</td>
+                        <td>
+                            <select data-for="type" data-store="${doc.type}">
+                                <option value="lend"${doc.type == "lend" ? ' selected="selected"' : ''}>外借圖書</option>
+                                <option value="take"${doc.type == "take" ? ' selected="selected"' : ''}>漂書</option>
+                                <option value="reference"${doc.type == "reference" ? ' selected="selected"' : ''}>參考圖書（不外借）</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
                         <td>顯示</td>
                         <td><input type="checkbox" data-for="visible" data-store="${doc.visible}" ${doc.visible=="true" ? "checked" : ""}></td>
                     </tr>
@@ -647,7 +661,8 @@ async function query(q, type, sort)
     div.innerHTML = resultHTML;
 
     div.querySelectorAll(".entry").forEach((div) => {
-        div.querySelectorAll("input").forEach(function(input) {
+        div.querySelectorAll("input,select").forEach(function(input) {
+            console.log(input.innerHTML)
             input.addEventListener("input", function() {
                 if (this.value == this.getAttribute('data-store'))
                 {
@@ -681,7 +696,7 @@ async function query(q, type, sort)
             });
             input.addEventListener("change", function() {
                 console.log(this.type);
-                if (this.type == "text")
+                if (this.type == "text" || this instanceof HTMLSelectElement)
                 {
                     if (this.value == this.getAttribute('data-store'))
                     {
@@ -761,7 +776,7 @@ async function query(q, type, sort)
             var records = {};
             const key = this.getAttribute('data-key');
             div.querySelectorAll(".changed").forEach(function(input) {
-                if (input.type == "text")
+                if (input.type == "text" || input instanceof HTMLSelectElement)
                 {
                     records[`${key}.${input.getAttribute('data-for')}`] = input.value;
                 }
@@ -793,7 +808,7 @@ async function query(q, type, sort)
                 document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
                 var div = this.parentNode;
                 div.querySelectorAll(".changed").forEach(function(input) {
-                    if (input.type == 'text')
+                    if (input.type == 'text' || input instanceof HTMLSelectElement)
                     {
                         input.setAttribute('data-store', input.value);
                         input.classList.remove('changed');
@@ -817,7 +832,7 @@ async function query(q, type, sort)
         div.querySelector('[data-action="reset"]').addEventListener("click", function(){
             var div = this.parentNode;
             div.querySelectorAll(".changed").forEach(function(textarea) {
-                if (textarea.type == 'text')
+                if (textarea.type == 'text' || textarea instanceof HTMLSelectElement)
                 {
                     textarea.value = textarea.getAttribute('data-store');
                     textarea.classList.remove('changed');
@@ -889,6 +904,7 @@ document.getElementById('writeSingleData').addEventListener('click', function(e)
             publisher: entry.querySelector('[data-for="publisher"]').value,
             notes: entry.querySelector('[data-for="notes"]').value,
             visible: entry.querySelector('[data-for="visible"]').checked ? "true" : "false",
+            type: entry.querySelector('[data-for="type"]').value
         }
     };
     
@@ -1009,7 +1025,7 @@ document.getElementById('sectionMenu').querySelector('button').click();
 document.getElementById('resetSingleData').addEventListener('click', function(e) {
     console.log('resetSingleData clicked');
     document.getElementById('uploadSection').querySelectorAll('input').forEach((input) => {
-        if (input.type == "text")
+        if (input.type == "text" || input instanceof HTMLSelectElement)
         {
             input.value = '';
         }
