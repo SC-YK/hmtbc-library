@@ -370,7 +370,7 @@ async function initEditTable()
                 tr.querySelector('[data-action="reset"]').style.display = tr.querySelectorAll('.changed').length > 0 ? '' : 'none';
             });
         });
-        tr.querySelector('[data-action="save"]').addEventListener("click", function() {
+        tr.querySelector('[data-action="save"]').addEventListener("click", async function() {
             var tr = this.parentNode.parentNode;
             var records = {};
             const key = this.getAttribute('data-key');
@@ -394,7 +394,7 @@ async function initEditTable()
                 data: JSON.stringify(records)
             };
             batch.update(logRef, logged);
-            batch.commit().then(() => {
+            batch.commit().then(async () => {
                 console.log("Document successfully updated!");
                 document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
                 var tr = this.parentNode.parentNode;
@@ -412,7 +412,8 @@ async function initEditTable()
                 });
                 tr.querySelector('[data-action="save"]').style.display = 'none';
                 tr.querySelector('[data-action="reset"]').style.display = 'none'
-                getBookRecords();
+                await getBookRecords();
+                //await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
             })
             .catch((error) => {
                 console.error("Error updating document: ", error);
@@ -662,7 +663,6 @@ async function query(q, type, sort)
 
     div.querySelectorAll(".entry").forEach((div) => {
         div.querySelectorAll("input,select").forEach(function(input) {
-            console.log(input.innerHTML)
             input.addEventListener("input", function() {
                 if (this.value == this.getAttribute('data-store'))
                 {
@@ -738,7 +738,7 @@ async function query(q, type, sort)
             div.querySelector('[data-action="deleteCancel"]').style.display = 'none';
             div.querySelector('[data-action="deleteFirst"]').style.display = '';
         });
-        div.querySelector('[data-action="delete"]').addEventListener("click", function() {
+        div.querySelector('[data-action="delete"]').addEventListener("click", async function() {
             const key = this.getAttribute('data-key');
             var records = {};
             records[key] = firebase.firestore.FieldValue.delete();
@@ -759,12 +759,13 @@ async function query(q, type, sort)
                 data: JSON.stringify(key)
             };
             batch.update(logRef, logged);
-            batch.commit().then(() => {
+            batch.commit().then(async () => {
                 console.log("Document successfully updated!");
                 document.getElementById('uploadSingleStatus').innerHTML = "上載成功";
                 var div = this.parentNode;
                 div.remove();
-                getBookRecords();
+                await getBookRecords();
+                await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
             })
             .catch((error) => {
                 console.error("Error updating document: ", error);
@@ -1001,8 +1002,8 @@ document.getElementById('writeData').addEventListener('click', function(e) {
 
  //choose section menu
 document.getElementById('sectionMenu').querySelectorAll('button').forEach((button) => {
-    button.addEventListener('click', function(e){
-        getBookRecords();
+    button.addEventListener('click', async function(e){
+        await getBookRecords();
         document.getElementById('sectionMenu').querySelectorAll('button').forEach((b) => {
             b.classList.remove('selected');
         });
@@ -1011,6 +1012,8 @@ document.getElementById('sectionMenu').querySelectorAll('button').forEach((butto
             section.style.display = 'none';
         });
         document.getElementById(button.getAttribute('data-for')).style.display = '';
+        await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
+        console.log("select")
         /*if (button.getAttribute('data-for')== 'editSection')
         {
             document.getElementById('editTableBody').querySelectorAll("tr").forEach((tr) => {
@@ -1050,15 +1053,15 @@ document.getElementById('resetSingleData').addEventListener('click', function(e)
 }
 
 //search button
-document.getElementById('searchButton').addEventListener('click', function(e) {
+document.getElementById('searchButton').addEventListener('click', async function(e) {
     console.log('searchButton clicked');
-    query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
+    await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
 });
 
 //sort
-document.getElementById('sortType').addEventListener('change', function(e) {
+document.getElementById('sortType').addEventListener('change', async function(e) {
     console.log('sorting changed');
-    query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
+    await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
 });
 
 await getBookRecords();

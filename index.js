@@ -256,7 +256,7 @@ const params = new URLSearchParams(document.location.search);
 document.getElementById('searchInput').value = params.get('searchInput');
 document.getElementById('searchType').value = params.get('searchType') == null ? 'title' : params.get('searchType');
 document.getElementById('sortType').value = params.get('sortType') == null ? 'default' : params.get('sortType');
-query(params.get('searchInput'), params.get('searchType'), params.get('sortType'), params.get('pageNumber'));
+await query(params.get('searchInput'), params.get('searchType'), params.get('sortType'), params.get('pageNumber'));
 //console.log(document.location.search);
 //localStorage.setItem('data', JSON.stringify(data));
 //var loaded = localStorage.getItem('data') != null ? JSON.parse(localStorage.getItem('data')) : getDataFromFile();
