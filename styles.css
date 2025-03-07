@@ -177,5 +177,15 @@ textarea {
     { 
         font-size: min(3.2vw, 14px);
     }
-    
+}
+
+#searchForm div{
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#searchForm input,option,select,button{
+    font-size: 0.9em;
+    margin-right: 5px;
+    margin-bottom: 3px;
 }

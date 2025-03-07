@@ -4,37 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css?v=19">
+    <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
     <header>
-        <h1>書籍系統管理</h1>
+        <div style="display:flex">
+            <h1>書籍系統管理</h1>
+            <a style="margin-left:auto;font-size:1.5em" href="index.html">Home</a>
+        </div>
         <nav>
             <ul>
-                <li><a href="index.html">Home</a></li>
+                <input type="checkbox" id="preview"/><label for="preview">Preview</label>
             </ul>
         </nav>
+        <iframe src="index.html" style="height:80vh;width:100%;display:none" id="previewBox"></iframe>
     </header>
     <main>
-        <!--
-        <section>
-            <form id="searchForm">
-                <select id="searchType" name="searchType">
-                    <option value="title" selected>Title</option>
-                    <option value="author">Author</option>
-                    <option value="publisher">Publisher</option>
-                </select>
-                <input type="text" id="searchInput" name="searchInput" placeholder="Enter book title, author or publisher">
-                <button type="submit">搜尋</button>
-            </form>
-        </section>
-        <section>
-            <label id="res"></label><hr>
-            <div id="resultList">
-                
-            </div>
-        </section>
-        -->
         <section>
             <div id="pwDiv">
                 <label>Password:
@@ -196,6 +181,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./admin.js?v=19" type="module"></script>
+    <script src="./admin.js?v=20" type="module"></script>
 </body>
 </html>

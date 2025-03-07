@@ -4,30 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library</title>
-    <link rel="stylesheet" href="styles.css?v=19">
+    <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
     <header>
-        <h1>書籍搜尋</h1>
-        <nav>
-            <ul>
-                <li><a href="admin.html">Admin</a></li>
-            </ul>
-        </nav>
+        <div style="display:flex">
+            <h1>書籍搜尋</h1>
+            <!--a style="margin-left:auto" href="admin.html">Admin</a-->
+        </div>
     </header>
     <main>
         <section>
             <form id="searchForm">
-                <select id="searchType" name="searchType">
-                    <option value="title" selected>書名</option>
-                    <option value="author">作者</option>
-                    <option value="publisher">出版社</option>
-                    <option value="rID">書籍序號(B...)</option>
-                    <option value="cNum1">索書號</option>
-                    <option value="cNum2">作者號</option>
-                </select>
-                <input type="text" id="searchInput" name="searchInput" placeholder="搜尋書名、作者、或出版社">
-                <button type="submit">搜尋</button>
+                <div style="display: flex;">
+                    <select id="searchType" name="searchType">
+                        <option value="title" selected>書名</option>
+                        <option value="author">作者</option>
+                        <option value="publisher">出版社</option>
+                        <option value="rID">書籍序號(B...)</option>
+                        <option value="cNum1">索書號</option>
+                        <option value="cNum2">作者號</option>
+                    </select>
+                    <input type="text" id="searchInput" name="searchInput" placeholder="搜尋書名、作者、或出版社">
+                    <button type="submit">搜尋</button>
+                </div>
                 <hr>
                 <div style="display: flex; justify-content:right">
                     <label>排序: &nbsp;</label>
@@ -61,6 +61,6 @@
     <script src="https://www.gstatic.com/firebasejs/10.13.1/firebase-auth-compat.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.mini.min.js"></script>
     
-    <script src="./index.js?v=19" type="module"></script>
+    <script src="./index.js?v=20" type="module"></script>
 </body>
 </html>

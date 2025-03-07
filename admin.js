@@ -1064,6 +1064,12 @@ document.getElementById('sortType').addEventListener('change', async function(e)
     await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
 });
 
+//preview
+document.getElementById('preview').addEventListener('click', function(e) {
+    console.log(this.checked ? "" : "none")
+    document.getElementById('previewBox').style.display = (this.checked ? "" : "none")
+});
+
 await getBookRecords();
 await query('', 'title', 'default');
 
