@@ -185,7 +185,7 @@ textarea {
 }
 
 #searchForm input,option,select,button{
-    font-size: min(3vw, 1em);
+    font-size: min(3.3vw, 1.1em);
     margin-right: 5px;
     margin-bottom: 3px;
 }
