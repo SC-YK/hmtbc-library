@@ -224,6 +224,45 @@ async function query(q, type, sort, pageNumber)
         `;
     }
 
+    //static record
+    /*var staticRecord = "";
+    for (var i = 0; i < entries.length; i++)
+    {
+        var doc = entries[i];
+        staticRecord += `
+        <div>
+            <h2>${doc.title}</h2>
+            <h4>${doc.author}</h4>
+            <table>
+                <tbody>
+                    <tr>
+                        <td>出版</td>
+                        <td>${doc.publisher}</td>
+                    </tr>
+                    <tr>
+                        <td>書籍序號(B...)</td>
+                        <td>${doc.rID}</td>
+                    </tr>
+                    <tr>
+                        <td>索書號</td>
+                        <td>${doc.cNum1}</td>
+                    </tr>
+                    <tr>
+                        <td>作者號</td>
+                        <td>${doc.cNum2}</td>
+                    </tr>
+                    <tr>
+                        <td>資訊</td>
+                        <td>${BookTypeToString(doc.hasOwnProperty("type") ? doc.type : "")}; ${doc.notes}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <hr>
+        </div>
+        `;
+    }
+    console.log(staticRecord)*/
+
     var pageBottom = document.getElementById('pageSectionBottom');
     pageBottom.innerHTML = pages.innerHTML;
     
