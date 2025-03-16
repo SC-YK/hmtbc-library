@@ -281,6 +281,8 @@ function BookTypeToString(type)
             return '外借圖書'
         case 'take':
             return '漂書'
+        case 'takein':
+            return '漂書（館內）'
         case 'reference':
             return '參考圖書（不外借）'
     }
