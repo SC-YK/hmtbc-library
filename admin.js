@@ -1056,12 +1056,14 @@ document.getElementById('resetSingleData').addEventListener('click', function(e)
 //search button
 document.getElementById('searchButton').addEventListener('click', async function(e) {
     console.log('searchButton clicked');
+    await getBookRecords();
     await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
 });
 
 //sort
 document.getElementById('sortType').addEventListener('change', async function(e) {
     console.log('sorting changed');
+    await getBookRecords();
     await query(document.getElementById('searchInput').value, document.getElementById('searchType').value, document.getElementById('sortType').value);
 });
 
