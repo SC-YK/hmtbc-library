@@ -58,27 +58,28 @@ async function query(q, type, sort, pageNumber)
     console.log(typeof(data));
     dataScore.forEach((doc) => {
         doc.score = 0;
+        const k = (doc.title.length > 0) ? 2 : 1;
         switch(type){
             case 'rID':
-                if (doc.rID.toString().includes(q)) {doc.score += 1;}
+                if (doc.rID.toString().includes(q)) {doc.score += k;}
                 break;
             case 'cNum1':
-                if (doc.cNum1.toString().includes(q)) {doc.score += 1;}
+                if (doc.cNum1.toString().includes(q)) {doc.score += k;}
                 break;
             case 'cNum2':
-                if (doc.cNum2.toString().includes(q)) {doc.score += 1;}
+                if (doc.cNum2.toString().includes(q)) {doc.score += k;}
                 break;
             case 'title':
-                if (doc.title.includes(q)) {doc.score += 1;}
+                if (doc.title.includes(q)) {doc.score += k;}
                 break;
             case 'author':
-                if (doc.author.includes(q)) {doc.score += 1;}
+                if (doc.author.includes(q)) {doc.score += k;}
                 break;
             case 'publisher':
-                if (doc.publisher.includes(q)) {doc.score += 1;}
+                if (doc.publisher.includes(q)) {doc.score += k;}
                 break;
             default:
-                doc.score = 1;
+                doc.score = k;
                 break;
         }
     });
