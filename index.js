@@ -286,6 +286,8 @@ function BookTypeToString(type)
             return '漂書（館內）'
         case 'reference':
             return '參考圖書（不外借）'
+        case 'song':
+            return '詩歌（內部使用-不外借）'
     }
     return '漂書'
 }

@@ -642,6 +642,7 @@ async function query(q, type, sort)
                                 <option value="take"${doc.type == "take" ? ' selected="selected"' : ''}>漂書</option>
                                 <option value="takein"${doc.type == "takein" ? ' selected="selected"' : ''}>漂書（館內）</option>
                                 <option value="reference"${doc.type == "reference" ? ' selected="selected"' : ''}>參考圖書（不外借）</option>
+                                <option value="reference"${doc.type == "song" ? ' selected="selected"' : ''}>詩歌（內部使用-不外借）</option>
                             </select>
                         </td>
                     </tr>
